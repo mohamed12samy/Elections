@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.survey_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(MainActivity.this, Survey.class);
+                Intent i = new Intent(MainActivity.this, SurveyBase.class);
                 startActivity(i);
             }
         });

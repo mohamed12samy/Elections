@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".view.Survey"></activity>
+        <activity android:name=".view.SurveyBase"></activity>
+        <activity android:name=".view.Survey" />
         <activity android:name=".view.LagnaFlow" />
         <activity android:name=".view.AdminBase" />
         <activity android:name=".view.LagnaBase" />
