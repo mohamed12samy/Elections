@@ -9,9 +9,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".AdminBase"></activity>
-        <activity android:name=".LagnaBase" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".view.Survey"></activity>
+        <activity android:name=".view.LagnaFlow" />
+        <activity android:name=".view.AdminBase" />
+        <activity android:name=".view.LagnaBase" />
+        <activity android:name=".view.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

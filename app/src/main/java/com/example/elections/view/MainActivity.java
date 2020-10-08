@@ -1,11 +1,12 @@
-package com.example.elections;
+package com.example.elections.view;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
+
+import com.example.elections.R;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -28,6 +29,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(MainActivity.this, AdminBase.class);
+                startActivity(i);
+            }
+        });
+
+        findViewById(R.id.survey_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(MainActivity.this, Survey.class);
                 startActivity(i);
             }
         });

@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".view.MainActivity"
+    android:background="@color/colorAccent"
+    >
 
 
     <com.google.android.material.button.MaterialButton
@@ -14,7 +16,6 @@
         android:layout_margin="50dp"
         android:text="دخول الي اللجنة "
         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-        android:textColor="#000"
         android:textSize="20sp"
         android:id="@+id/lagna_button"
         android:textAllCaps="false"
@@ -22,6 +23,9 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintBottom_toTopOf="@id/admin_button"
+        app:backgroundTint="#2A454E"
+        android:textColor="@color/colorPrimary"
+
         >
 
     </com.google.android.material.button.MaterialButton>
@@ -33,7 +37,6 @@
         android:layout_margin="50dp"
         android:text="دخول الي الغرفة "
         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-        android:textColor="#000"
         android:textSize="20sp"
         android:id="@+id/admin_button"
         android:textAllCaps="false"
@@ -41,6 +44,27 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:backgroundTint="#2A454E"
+        android:textColor="@color/colorPrimary"
+
+        />
+
+    <com.google.android.material.button.MaterialButton
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="50dp"
+        android:text="دخول الي الاستطلاع "
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        android:textSize="20sp"
+        android:id="@+id/survey_button"
+        android:textAllCaps="false"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/admin_button"
+        app:backgroundTint="#2A454E"
+        android:textColor="@color/colorPrimary"
+
         >
 
     </com.google.android.material.button.MaterialButton>
