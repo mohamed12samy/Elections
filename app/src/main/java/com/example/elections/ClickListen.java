@@ -2,5 +2,5 @@ package com.example.elections;
 
 public interface ClickListen {
 
-    void clicklisten();
+    void clicklisten(int id);
 }

@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:padding="12dp"
     >
 
@@ -19,29 +19,20 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <view
-        android:id="@+id/view"
-        android:layout_width="5dp"
-        android:layout_height="1dp"
-        android:background="#000"
-        android:backgroundTint="#000"
-        app:layout_constraintRight_toLeftOf="@id/candidate_num"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="20dp"
-        android:layout_marginRight="8dp"
-        />
+
     <TextView
         android:id="@+id/candidate_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="محمد رضا"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintRight_toLeftOf="@id/view"
+        app:layout_constraintRight_toLeftOf="@id/candidate_num"
         android:layout_margin="8dp"
         android:textColor="#000"
         />
 
-    <EditText
+
+    <androidx.appcompat.widget.AppCompatEditText
         android:id="@+id/edittext_vote"
         android:layout_width="wrap_content"
         android:layout_height="36dp"
@@ -52,8 +43,8 @@
         app:layout_constraintRight_toLeftOf="@id/candidate_name"
         app:layout_constraintTop_toTopOf="parent"
         android:background="@drawable/edti_text_back"
-
         />
+
 
     <Button
         android:id="@+id/done"
@@ -63,7 +54,7 @@
         android:text="تم"
         android:textColor="#000"
         android:textSize="20sp"
-        app:layout_constraintEnd_toStartOf="@+id/edittext_vote"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
 

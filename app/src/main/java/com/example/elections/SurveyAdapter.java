@@ -1,17 +1,12 @@
 package com.example.elections;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.TextView;
 
-
-
 import androidx.annotation.NonNull;
-import androidx.appcompat.widget.AppCompatEditText;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.elections.model.Candidates;
@@ -20,12 +15,13 @@ import com.google.android.material.textfield.TextInputEditText;
 import java.util.List;
 import java.util.Map;
 
-public class SortingAdapter extends RecyclerView.Adapter<SortingAdapter.ViewHolder> {
+public class SurveyAdapter extends RecyclerView.Adapter<SurveyAdapter.ViewHolder> {
 
     private List<Candidates> candidates;
     //private Context context;
     private ClickListen listener;
-    public SortingAdapter(Context context, List<Candidates> candidates , ClickListen listener) {
+
+    public SurveyAdapter(Context context, List<Candidates> candidates , ClickListen listener) {
 
         this.listener = listener;
         this.candidates = candidates;
@@ -34,7 +30,7 @@ public class SortingAdapter extends RecyclerView.Adapter<SortingAdapter.ViewHold
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.sorting_items, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.survey_item, parent, false);
         ViewHolder mViewHolder = new ViewHolder(view);
 
         return mViewHolder;
@@ -42,17 +38,16 @@ public class SortingAdapter extends RecyclerView.Adapter<SortingAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-
         holder.can_name.setText(candidates.get(position).getName());
         holder.can_Num.setText(position); /********* iiiiiiddddddd *********/
         holder.done.setText(candidates.get(position).getVotes());
-
     }
+
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         TextView can_Num;
         TextView can_name;
-        androidx.appcompat.widget.AppCompatEditText done;
+        TextInputEditText done;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -85,4 +80,3 @@ public class SortingAdapter extends RecyclerView.Adapter<SortingAdapter.ViewHold
         return position;
     }
 }
-
