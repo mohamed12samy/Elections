@@ -46,13 +46,13 @@ public class SortingFragment extends Fragment implements ClickListen {
 
         sortingViewModel = ViewModelProviders.of(this).get(SortingViewModel.class);
 
-        sortingViewModel.getCandidates().observe(this, new Observer<List<Candidates>>() {
+        sortingViewModel.getCandidates().observe(this, new Observer<Candidates>() {
             @Override
-            public void onChanged(List<Candidates> ob) {
-                candidates.clear();
-                candidates.addAll(ob);
+            public void onChanged(Candidates ob) {
+
+                candidates.add(ob);
                 mSortingAdapter.notifyDataSetChanged();
-                Log.d("OPOPOP", ob.toString());
+                //Log.d("OPOPOP", ob.get(1).getName());
             }
         });
 
@@ -62,8 +62,8 @@ public class SortingFragment extends Fragment implements ClickListen {
     }
 
     @Override
-    public void clicklisten(int id) {
-        Log.d("HHHHHHOOOOOO", " fuck it ");
-        sortingViewModel.updateCandidateVotes(id);
+    public void clicklisten(String key, int votes) {
+        Log.d("HHHHHHOOOOOO", " fuck it "+key);
+        sortingViewModel.updateCandidateVotes(key, votes);
     }
 }

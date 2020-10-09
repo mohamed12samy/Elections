@@ -2,9 +2,11 @@ package com.example.elections;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -18,7 +20,7 @@ import com.example.elections.model.Candidates;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.List;
-import java.util.Map;
+
 
 public class SortingAdapter extends RecyclerView.Adapter<SortingAdapter.ViewHolder> {
 
@@ -43,29 +45,35 @@ public class SortingAdapter extends RecyclerView.Adapter<SortingAdapter.ViewHold
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
-        holder.can_name.setText(candidates.get(position).getName());
-        holder.can_Num.setText(position); /********* iiiiiiddddddd *********/
-        holder.done.setText(candidates.get(position).getVotes());
+        if(candidates.get(position) != null) {
+            //Log.d("RTRTRT",candidates.get(position).getName()+"");
 
+            holder.can_name.setText(candidates.get(position).getName());
+            holder.can_Num.setText(candidates.get(position).getKey()); /********* iiiiiiddddddd *********/
+            holder.vote_edit.setText(candidates.get(position).getVotes()+"");
+        }
     }
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         TextView can_Num;
         TextView can_name;
-        androidx.appcompat.widget.AppCompatEditText done;
+        EditText vote_edit;
+        Button done;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
             can_Num = itemView.findViewById(R.id.candidate_num);
             can_name = itemView.findViewById(R.id.candidate_name);
+            vote_edit = itemView.findViewById(R.id.edittext_vote);
             done = itemView.findViewById(R.id.done);
 
             done.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Map<String, Object> postValues = candidates.get(getAdapterPosition()).toMap();
-                    //listener.clicklisten(getAdapterPosition(), );
+                    listener.clicklisten(candidates.get(getAdapterPosition()).getKey(),
+                            Integer.parseInt(vote_edit.getText().toString())
+                            );
                 }
             });
         }

@@ -41,19 +41,19 @@ public class Survey extends AppCompatActivity implements ClickListen {
 
         surveyViewModel = ViewModelProviders.of(this).get(SurveyViewModel.class);
 
-        surveyViewModel.getCandidates().observe(this, new Observer<List<Candidates>>() {
+        surveyViewModel.getCandidates().observe(this, new Observer<Candidates>() {
             @Override
-            public void onChanged(List<Candidates> ob) {
-                candidates.clear();
-                candidates.addAll(ob);
+            public void onChanged(Candidates ob) {
+
+                candidates.add(ob);
                 mSurveyAdapter.notifyDataSetChanged();
-                Log.d("OPOPOP", ob.toString());
+                //Log.d("OPOPOP", ob.get(1).getName());
             }
         });
     }
 
     @Override
-    public void clicklisten(int id) {
+    public void clicklisten(String key, int  votes) {
 
     }
 }

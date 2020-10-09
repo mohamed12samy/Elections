@@ -1,14 +1,21 @@
 package com.example.elections.model;
 
-import com.google.firebase.database.Exclude;
-
 import java.util.HashMap;
-import java.util.Map;
 
 public class Candidates {
 
+
     private String name;
-    private int votes;
+    private long votes;
+    private String key;
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
+    }
 
     public String getName() {
         return name;
@@ -18,7 +25,7 @@ public class Candidates {
         this.name = name;
     }
 
-    public int getVotes() {
+    public long getVotes() {
         return votes;
     }
 
@@ -26,18 +33,11 @@ public class Candidates {
         this.votes = votes;
     }
 
-    public Candidates(String name, int votes) {
+    public Candidates(String key, String name, long votes) {
+        this.key = key;
         this.name = name;
         this.votes = votes;
     }
 
-    @Exclude
-    public Map<String, Object> toMap() {
-        HashMap<String, Object> result = new HashMap<>();
-        result.put("name", name);
-        result.put("votes_num", votes);
 
-
-        return result;
-    }
 }

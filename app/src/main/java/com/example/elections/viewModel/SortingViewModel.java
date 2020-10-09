@@ -12,20 +12,20 @@ import java.util.List;
 public class SortingViewModel extends ViewModel {
 
     private ElectionRepository repository;
-    private MutableLiveData<List<Candidates>> candidates = new MutableLiveData<>();
+    private MutableLiveData<Candidates> candidates = new MutableLiveData<>();
 
     public SortingViewModel(){
         repository = ElectionRepository.getInstance();
     }
 
 
-    public LiveData<List<Candidates>> getCandidates(){
-        candidates = (MutableLiveData<List<Candidates>>) repository.getCandidates();
+    public LiveData<Candidates> getCandidates(){
+        candidates = (MutableLiveData<Candidates>) repository.getCandidates();
 
         return candidates;
     }
 
-    public void updateCandidateVotes(int id){
-        repository.updateCandidateVotes((id+1));
+    public void updateCandidateVotes(String key, int votes){
+        repository.updateCandidateVotes(key, votes);
     }
 }

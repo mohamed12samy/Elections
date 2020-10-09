@@ -12,13 +12,13 @@ import java.util.List;
 public class SurveyViewModel extends ViewModel {
 
     private ElectionRepository repository;
-    private MutableLiveData<List<Candidates>> candidates = new MutableLiveData<>();
+    private MutableLiveData<Candidates> candidates = new MutableLiveData<>();
 
     public SurveyViewModel(){
         repository = ElectionRepository.getInstance();
     }
-    public LiveData<List<Candidates>> getCandidates(){
-        candidates = (MutableLiveData<List<Candidates>>) repository.getCandidates();
+    public LiveData<Candidates> getCandidates(){
+        candidates = (MutableLiveData<Candidates>) repository.getCandidates();
 
         return candidates;
     }

@@ -11,12 +11,15 @@ import androidx.lifecycle.MutableLiveData;
 import com.example.elections.MyApplication;
 import com.example.elections.SingleLiveEvent;
 import com.example.elections.model.Candidates;
+import com.example.elections.model.CandidatesList;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class ElectionRepository {
@@ -28,7 +31,7 @@ public class ElectionRepository {
     DatabaseReference update_counter_ref, get_candidates_ref, update_candidatesVotes_ref;
 
 
-    final MutableLiveData<List<Candidates>> candidates = new SingleLiveEvent<>();
+    final MutableLiveData<Candidates> candidates = new SingleLiveEvent<>();
 
 
     private int governorate_position;
@@ -53,6 +56,9 @@ public class ElectionRepository {
 
         get_candidates_ref = db.getReference("vots/Governorate/"+governorate_position+
                 "/dayra/"+daira+"/candidates");
+
+        update_candidatesVotes_ref = db.getReference("vots/Governorate/"+governorate_position+
+                "/dayra/"+daira+"/candidates/");
 
     }
 
@@ -82,13 +88,21 @@ public class ElectionRepository {
 
     }
 
-    public LiveData<List<Candidates>> getCandidates() {
+    public LiveData<Candidates> getCandidates() {
 
         get_candidates_ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                Log.d("ttttttt",snapshot.getValue() + "");
-                candidates.setValue((List<Candidates>) snapshot.getValue());
+                for(DataSnapshot dataSnapshot : snapshot.getChildren()){
+                    if(dataSnapshot != null ) {
+                        Candidates c =
+                                new Candidates(dataSnapshot.getKey(), dataSnapshot.child("name").getValue().toString(),
+                                        (Long) dataSnapshot.child("votes_num").getValue());
+                        candidates.setValue(c);
+                    }
+                    //Log.d("ttttttt", dataSnapshot.child("votes_num").getValue()+"   "+ dataSnapshot.getKey()+"   ");
+                }
+
             }
 
             @Override
@@ -99,12 +113,13 @@ public class ElectionRepository {
 
         return candidates;
     }
-    public void updateCandidateVotes(int id){
-        update_candidatesVotes_ref = db.getReference("vots/Governorate/"+governorate_position+
-                "/dayra/"+daira+"/candidates/"+id+"");
 
+    public void updateCandidateVotes(String key, int votes){
+        update_candidatesVotes_ref.child(key).child("votes_num").setValue(votes);
+    }
 
-        //update_candidatesVotes_ref.updateChildren();
-
+    public void updateCandidateVotesSurvey(String key1, String key2, int votes1, int votes2){
+        update_candidatesVotes_ref.child(key1).child("votes_num_survey").setValue(votes1);
+        update_candidatesVotes_ref.child(key2).child("votes_num_survey").setValue(votes2);
     }
 }
