@@ -1,33 +1,31 @@
 package com.example.elections;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 
-
-
 import androidx.annotation.NonNull;
-import androidx.appcompat.widget.AppCompatEditText;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.elections.model.Candidates;
 import com.google.android.material.textfield.TextInputEditText;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
-
-public class SortingAdapter extends RecyclerView.Adapter<SortingAdapter.ViewHolder> {
+public class SurveyAdapter extends RecyclerView.Adapter<SurveyAdapter.ViewHolder> {
 
     private List<Candidates> candidates;
     //private Context context;
     private ClickListen listener;
-    public SortingAdapter(Context context, List<Candidates> candidates , ClickListen listener) {
+
+    public SurveyAdapter(Context context, List<Candidates> candidates , ClickListen listener) {
 
         this.listener = listener;
         this.candidates = candidates;
@@ -36,7 +34,7 @@ public class SortingAdapter extends RecyclerView.Adapter<SortingAdapter.ViewHold
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.sorting_items, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.survey_item, parent, false);
         ViewHolder mViewHolder = new ViewHolder(view);
 
         return mViewHolder;
@@ -44,38 +42,47 @@ public class SortingAdapter extends RecyclerView.Adapter<SortingAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        holder.can_name.setText(candidates.get(position).getName());
+        holder.can_Num.setText(candidates.get(position).getKey());
 
-        if(candidates.get(position) != null) {
-            //Log.d("RTRTRT",candidates.get(position).getName()+"");
 
-            holder.can_name.setText(candidates.get(position).getName());
-            holder.can_Num.setText(candidates.get(position).getKey()); /********* iiiiiiddddddd *********/
-            holder.vote_edit.setText(candidates.get(position).getVotes()+"");
-        }
     }
+
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         TextView can_Num;
         TextView can_name;
-        EditText vote_edit;
-        Button done;
+        CheckBox check;
+
+        List<String> checked = new ArrayList<>();
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
             can_Num = itemView.findViewById(R.id.candidate_num);
             can_name = itemView.findViewById(R.id.candidate_name);
-            vote_edit = itemView.findViewById(R.id.edittext_vote);
-            done = itemView.findViewById(R.id.done);
+            check = itemView.findViewById(R.id.check);
 
-            done.setOnClickListener(new View.OnClickListener() {
+
+            check.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
-                public void onClick(View v) {
-                    listener.clicklisten(candidates.get(getAdapterPosition()).getKey(),
-                            Integer.parseInt(vote_edit.getText().toString())
-                            );
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if(isChecked){
+                        if(!checked.contains(getAdapterPosition())){
+                            if(checked.size()<2)
+                                checked.add(getAdapterPosition()+"");
+                            else
+                                check.setChecked(false);
+                            Log.d("veded","565656");
+                        }
+                        }else {
+                        Log.d("removeded","565656");
+                        checked.remove(getAdapterPosition()+"");
+
+                    }
                 }
             });
+
         }
     }
 
@@ -93,4 +100,3 @@ public class SortingAdapter extends RecyclerView.Adapter<SortingAdapter.ViewHold
         return position;
     }
 }
-

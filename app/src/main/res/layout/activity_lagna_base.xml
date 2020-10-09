@@ -59,7 +59,7 @@
             android:layout_height="wrap_content"
             android:gravity="start"
             android:hint="رقم الدائرة"
-            android:inputType="text"
+            android:inputType="numberDecimal"
             android:layoutDirection="rtl"
             android:textDirection="rtl"
             android:textColor="#FFF"
@@ -82,12 +82,12 @@
         app:layout_constraintTop_toBottomOf="@id/_1">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/name_signup"
+            android:id="@+id/qesm_num"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="start"
             android:hint="رقم القسم"
-            android:inputType="text"
+            android:inputType="numberDecimal"
             android:layoutDirection="rtl"
             android:textDirection="rtl"  android:textColor="#FFF"
             android:textColorHint="#FFF"/>
@@ -113,7 +113,7 @@
             android:layout_height="wrap_content"
             android:gravity="start"
             android:hint="رقم المدرسه"
-            android:inputType="text"
+            android:inputType="numberDecimal"
             android:layoutDirection="rtl"
             android:textDirection="rtl"  android:textColor="#FFF"
             android:textColorHint="#FFF"/>
@@ -137,7 +137,7 @@
             android:layout_height="wrap_content"
             android:gravity="start"
             android:hint="رقم اللجنة"
-            android:inputType="text"
+            android:inputType="numberDecimal"
             android:layoutDirection="rtl"
             android:textDirection="rtl"
             android:textColor="#FFF"
