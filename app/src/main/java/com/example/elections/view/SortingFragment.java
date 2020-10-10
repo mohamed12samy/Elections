@@ -57,7 +57,7 @@ public class SortingFragment extends Fragment implements ClickListen {
 
                 candidates.add(ob);
                 mSortingAdapter.notifyDataSetChanged();
-                //Log.d("OPOPOP", ob.get(1).getName());
+          //      Log.d("OPOPOP", ob.getName());
             }
         });
 

@@ -3,6 +3,7 @@ package com.example.elections.viewModel;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.lifecycle.ViewModel;
 
@@ -33,7 +34,11 @@ public class AdminBaseViewModel extends ViewModel implements ResultOfLogin {
 
     @Override
     public void changeFlag(boolean result) {
-        resultForView.getResult(result);
+        //resultForView.getResult(result);
         Log.d("###", "##onClick: "+ result);
+        if(result){
+            resultForView.getIn();
+        }else
+            Toast.makeText(MyApplication.getInstance(), "البيانات خاطئه", Toast.LENGTH_SHORT).show();
     }
 }

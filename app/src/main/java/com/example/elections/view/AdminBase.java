@@ -21,7 +21,6 @@ import com.google.android.material.textfield.TextInputEditText;
 
 public class AdminBase extends AppCompatActivity implements ResultForView {
 
-    private boolean resultOfLogin;
     private SharedPreferences sharedPreferences;
     TextInputEditText daira_num;
     TextInputEditText password;
@@ -55,23 +54,14 @@ public class AdminBase extends AppCompatActivity implements ResultForView {
                 else if(daira.length() > 0 && pass.length()>0) {
                     //check if the data is correct first.
                     viewModel.checkLogin(governate_postion,Integer.parseInt(daira),pass);
-                    Log.d("!!!", "@@onClick: "+ resultOfLogin);
-                    if (true)//@@@@@@@@@@@@ not completed.
-                    {
+                       /*
                         SharedPreferences.Editor editor = sharedPreferences.edit();
                         editor.putInt("governorate_position", spinner.getSelectedItemPosition() + 1).apply();
                         editor.putInt("daira_num", Integer.parseInt(daira_num.getText().toString())).apply();
                         editor.putString("password", password.getText().toString()).apply();
                         editor.putBoolean("in", true);
                         editor.commit();
-
-                        //Intent i = new Intent(AdminBase.this, LagnaFlow.class);// lessa ma3mltsh page.
-                        //startActivity(i);
-                        Toast.makeText(AdminBase.this, "مرحبا بك", Toast.LENGTH_SHORT).show();
-                    }
-                    else{
-                        Toast.makeText(AdminBase.this, "البيانات خاطئه", Toast.LENGTH_SHORT).show();
-                    }
+*/
                 }
                 else{
                     Toast.makeText(AdminBase.this, "من فضلك املئ الخانات كلها", Toast.LENGTH_SHORT).show();
@@ -95,7 +85,10 @@ public class AdminBase extends AppCompatActivity implements ResultForView {
     }
 
     @Override
-    public void getResult(boolean result) {
-        resultOfLogin = result;
+    public void getIn(){
+        Intent i = new Intent(AdminBase.this, CollectingAdmin.class);// lessa ma3mltsh page.
+        startActivity(i);
+        Toast.makeText(AdminBase.this, "مرحبا بك", Toast.LENGTH_SHORT).show();
+
     }
 }
