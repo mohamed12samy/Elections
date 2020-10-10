@@ -1,8 +1,6 @@
-package com.example.elections;
+package com.example.elections.adapter;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,11 +11,11 @@ import android.widget.TextView;
 
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.widget.AppCompatEditText;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.elections.ClickListen;
+import com.example.elections.R;
 import com.example.elections.model.Candidates;
-import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.List;
 

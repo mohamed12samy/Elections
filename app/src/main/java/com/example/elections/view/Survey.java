@@ -12,10 +12,8 @@ import android.view.View;
 
 import com.example.elections.ClickListen;
 import com.example.elections.R;
-import com.example.elections.SortingAdapter;
-import com.example.elections.SurveyAdapter;
+import com.example.elections.adapter.SurveyAdapter;
 import com.example.elections.model.Candidates;
-import com.example.elections.viewModel.SortingViewModel;
 import com.example.elections.viewModel.SurveyViewModel;
 
 import java.util.ArrayList;

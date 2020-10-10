@@ -16,7 +16,7 @@ import android.widget.EditText;
 
 import com.example.elections.ClickListen;
 import com.example.elections.R;
-import com.example.elections.SortingAdapter;
+import com.example.elections.adapter.SortingAdapter;
 import com.example.elections.model.Candidates;
 import com.example.elections.viewModel.SortingViewModel;
 
