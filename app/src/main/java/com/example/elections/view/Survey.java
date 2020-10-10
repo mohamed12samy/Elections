@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 
 import com.example.elections.ClickListen;
 import com.example.elections.R;
@@ -23,6 +24,7 @@ import java.util.List;
 public class Survey extends AppCompatActivity implements ClickListen {
 
 
+    String key1; String key2; int vote1; int vote2;
     List<Candidates> candidates = new ArrayList<>();
     private RecyclerView surveyRecycler;
     private SurveyAdapter mSurveyAdapter = new SurveyAdapter(this , candidates, this);
@@ -50,10 +52,41 @@ public class Survey extends AppCompatActivity implements ClickListen {
                 //Log.d("OPOPOP", ob.get(1).getName());
             }
         });
+
+        findViewById(R.id.done_survey).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(key1 != null && key2 != null){
+                    surveyViewModel.updateVotes(key1, key2);
+                    recreate();
+                }
+            }
+        });
     }
 
     @Override
     public void clicklisten(String key, int  votes) {
+
+    }
+
+    @Override
+    public void clickListenSurvey(String key, int idx) {
+        if(idx == 1){
+            Log.d("CHECKBOXX", key+" --  "+idx);
+            this.key1 = key;
+//            this.vote1 = vote;
+        }else if(idx == 2){
+
+            Log.d("CHECKBOXX2", key+" --  "+idx);
+            this.key2 = key;
+  //          this.vote2 = vote;
+        }
+
+        Log.d("CHECKBOXX232", "*-*-*-*   "+ idx);
+    }
+
+    @Override
+    public void handleKey(int idx) {
 
     }
 }

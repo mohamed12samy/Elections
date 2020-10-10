@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
 import com.example.elections.ClickListen;
 import com.example.elections.R;
@@ -30,6 +31,8 @@ public class SortingFragment extends Fragment implements ClickListen {
     private SortingAdapter mSortingAdapter = new SortingAdapter(getActivity(), candidates, this);
 
     private SortingViewModel sortingViewModel = new SortingViewModel();
+    EditText valid;
+    EditText invalid;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -42,6 +45,8 @@ public class SortingFragment extends Fragment implements ClickListen {
         sortingRecycler.setAdapter(mSortingAdapter);
 
 
+        valid = view.findViewById(R.id.edittext_valid_vote);
+        invalid = view.findViewById(R.id.edittext_invalid_vote);
 
 
         sortingViewModel = ViewModelProviders.of(this).get(SortingViewModel.class);
@@ -58,6 +63,22 @@ public class SortingFragment extends Fragment implements ClickListen {
 
 
 
+        view.findViewById(R.id.done_votes).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                String vValid = valid.getText().toString();
+                String vInvalid = invalid.getText().toString();;
+
+                if(vValid.length() >0 && vInvalid.length()>0){
+                    int valid = Integer.parseInt(vValid);
+                    int invalid = Integer.parseInt(vInvalid);
+
+                    sortingViewModel.updateValidInvalidVotes(valid, invalid);
+                }
+
+            }
+        });
         return view;
     }
 
@@ -66,4 +87,16 @@ public class SortingFragment extends Fragment implements ClickListen {
         Log.d("HHHHHHOOOOOO", " fuck it "+key);
         sortingViewModel.updateCandidateVotes(key, votes);
     }
+
+    @Override
+    public void clickListenSurvey(String key1, int idx) {
+
+    }
+
+    @Override
+    public void handleKey(int idx) {
+
+    }
+
+
 }

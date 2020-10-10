@@ -28,4 +28,8 @@ public class SortingViewModel extends ViewModel {
     public void updateCandidateVotes(String key, int votes){
         repository.updateCandidateVotes(key, votes);
     }
+
+    public void updateValidInvalidVotes(int valid, int invalid){
+        repository.updateValidInvalidVotes(valid, invalid);
+    }
 }

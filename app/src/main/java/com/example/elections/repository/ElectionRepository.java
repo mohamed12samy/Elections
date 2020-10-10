@@ -52,7 +52,7 @@ public class ElectionRepository {
 
         update_counter_ref = db.getReference("vots/" +
                 "Governorate/"+governorate_position+"/dayra/"+daira+ "/qsms/"+qesm+
-                "/scools/"+school+"/lagna/"+lagna+"/vots_num");
+                "/scools/"+school+"/lagna/"+lagna);
 
         get_candidates_ref = db.getReference("vots/Governorate/"+governorate_position+
                 "/dayra/"+daira+"/candidates");
@@ -71,7 +71,7 @@ public class ElectionRepository {
 
 
     public void updateCounter(int votes){
-        update_counter_ref.setValue(votes);
+        update_counter_ref.child("vots_num").setValue(votes);
         /*
         update_counter_ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -118,8 +118,40 @@ public class ElectionRepository {
         update_candidatesVotes_ref.child(key).child("votes_num").setValue(votes);
     }
 
-    public void updateCandidateVotesSurvey(String key1, String key2, int votes1, int votes2){
-        update_candidatesVotes_ref.child(key1).child("votes_num_survey").setValue(votes1);
-        update_candidatesVotes_ref.child(key2).child("votes_num_survey").setValue(votes2);
+    public void updateCandidateVotesSurvey(String key1, String key2){
+
+        update_candidatesVotes_ref.child(key1).child("votes_num_survey").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Log.d("OOOKKK",snapshot.getValue() + "");
+                if(snapshot.getValue() != null)
+                    update_candidatesVotes_ref.child(key1).child("votes_num_survey").setValue(Integer.parseInt(snapshot.getValue().toString())+1);
+                else
+                    update_candidatesVotes_ref.child(key1).child("votes_num_survey").setValue(1);
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.d("OOOKKK",error.getMessage() + "   -*-*-*");
+            }
+        });
+        update_candidatesVotes_ref.child(key2).child("votes_num_survey").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.getValue() != null)
+                    update_candidatesVotes_ref.child(key2).child("votes_num_survey").setValue(Integer.parseInt(snapshot.getValue().toString())+1);
+                else
+                    update_candidatesVotes_ref.child(key2).child("votes_num_survey").setValue(1);
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
+        });
+    }
+
+    public void updateValidInvalidVotes(int valid, int invalid) {
+        update_counter_ref.child("valid_vots").setValue(valid);
+        update_counter_ref.child("invalid_vots").setValue(invalid);
     }
 }
