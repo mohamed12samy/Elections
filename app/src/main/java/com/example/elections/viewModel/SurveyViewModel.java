@@ -23,4 +23,8 @@ public class SurveyViewModel extends ViewModel {
         return candidates;
     }
 
+    public void updateVotes(String key1, String key2){
+        repository.updateCandidateVotesSurvey(key1, key2);
+    }
+
 }

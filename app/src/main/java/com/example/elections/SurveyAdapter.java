@@ -21,12 +21,16 @@ import java.util.Map;
 
 public class SurveyAdapter extends RecyclerView.Adapter<SurveyAdapter.ViewHolder> {
 
+    int idx;
+    List<String> checked = new ArrayList<>();
+
     private List<Candidates> candidates;
     //private Context context;
     private ClickListen listener;
 
     public SurveyAdapter(Context context, List<Candidates> candidates , ClickListen listener) {
 
+        idx = 0;
         this.listener = listener;
         this.candidates = candidates;
     }
@@ -54,7 +58,6 @@ public class SurveyAdapter extends RecyclerView.Adapter<SurveyAdapter.ViewHolder
         TextView can_name;
         CheckBox check;
 
-        List<String> checked = new ArrayList<>();
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -64,19 +67,25 @@ public class SurveyAdapter extends RecyclerView.Adapter<SurveyAdapter.ViewHolder
             check = itemView.findViewById(R.id.check);
 
 
+            check.setOnCheckedChangeListener(null);
+
             check.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     if(isChecked){
+
                         if(!checked.contains(getAdapterPosition())){
-                            if(checked.size()<2)
-                                checked.add(getAdapterPosition()+"");
-                            else
+                            if(checked.size()<2) {
+                                listener.clickListenSurvey(candidates.get(getAdapterPosition()).getKey(),++idx);
+                                checked.add(getAdapterPosition() + "");
+                                Log.d("TYUIO", checked.size()+"");
+                            }else{
                                 check.setChecked(false);
-                            Log.d("veded","565656");
+                                Log.d("TYUIO", "9999");
+                            }
                         }
                         }else {
-                        Log.d("removeded","565656");
+                        idx--;
                         checked.remove(getAdapterPosition()+"");
 
                     }
