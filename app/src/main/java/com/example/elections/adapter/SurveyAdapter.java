@@ -1,4 +1,4 @@
-package com.example.elections;
+package com.example.elections.adapter;
 
 import android.content.Context;
 import android.util.Log;
@@ -12,12 +12,12 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.elections.ClickListen;
+import com.example.elections.R;
 import com.example.elections.model.Candidates;
-import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class SurveyAdapter extends RecyclerView.Adapter<SurveyAdapter.ViewHolder> {
 
