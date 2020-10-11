@@ -13,6 +13,7 @@ public class SortingViewModel extends ViewModel {
 
     private ElectionRepository repository;
     private MutableLiveData<Candidates> candidates = new MutableLiveData<>();
+    private MutableLiveData<List<Candidates>> candidates2 = new MutableLiveData<>();
 
     public SortingViewModel(){
         repository = ElectionRepository.getInstance();
@@ -21,8 +22,11 @@ public class SortingViewModel extends ViewModel {
 
     public LiveData<Candidates> getCandidates(){
         candidates = (MutableLiveData<Candidates>) repository.getCandidates();
-
         return candidates;
+    }
+    public LiveData<List<Candidates>> getCandidates2(int governorate_position, int daira){
+        candidates2 = (MutableLiveData<List<Candidates>>) repository.getCandidates2(governorate_position,daira);
+        return candidates2;
     }
 
     public void updateCandidateVotes(String key, int votes){

@@ -43,6 +43,7 @@ public class DataEntry extends AppCompatActivity {
                 qsm_num.getText().toString().length()>0 && seats_num.getText().toString().length()>0){
                     viewModel.addNewDayra(dayra_name.getText().toString(),spinner.getSelectedItemPosition() + 1,Integer.parseInt(dayra_num.getText().toString())
                             ,Integer.parseInt(seats_num.getText().toString()),Integer.parseInt(qsm_num.getText().toString()));
+                    Toast.makeText(DataEntry.this, "تم الاضافه بنجاح", Toast.LENGTH_SHORT).show();
                 }else {
                     Toast.makeText(DataEntry.this, "من فضلك املئ الخانات كلها", Toast.LENGTH_SHORT).show();
                 }

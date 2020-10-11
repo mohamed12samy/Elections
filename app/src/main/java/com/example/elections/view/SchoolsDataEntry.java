@@ -44,6 +44,7 @@ public class SchoolsDataEntry extends AppCompatActivity {
 
                     viewModel.addNewSchool(school_name.getText().toString(), spinner.getSelectedItemPosition() + 1, Integer.parseInt(dayra_num.getText().toString())
                             , Integer.parseInt(school_num.getText().toString()), Integer.parseInt(qesm_num.getText().toString()), Integer.parseInt(lagan_num.getText().toString()));
+                    Toast.makeText(SchoolsDataEntry.this, "تم الاضافه بنجاح", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(SchoolsDataEntry.this, "من فضلك املئ الخانات كلها", Toast.LENGTH_SHORT).show();
                 }

@@ -44,6 +44,7 @@ public class QsmsDataEntry extends AppCompatActivity {
 
                     viewModel.addNewQesm(qesm_name.getText().toString(), spinner.getSelectedItemPosition() + 1, Integer.parseInt(dayra_num.getText().toString())
                             , Integer.parseInt(schools_num.getText().toString()), Integer.parseInt(qesm_num.getText().toString()));
+                    Toast.makeText(QsmsDataEntry.this, "تم الاضافه بنجاح", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(QsmsDataEntry.this, "من فضلك املئ الخانات كلها", Toast.LENGTH_SHORT).show();
                 }

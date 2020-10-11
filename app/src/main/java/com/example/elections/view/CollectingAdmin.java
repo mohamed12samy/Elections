@@ -6,8 +6,13 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.elections.R;
@@ -25,7 +30,7 @@ public class CollectingAdmin extends AppCompatActivity {
     ArrayList<DayraObjList> dayraObj = new ArrayList<>();
     RecyclerView recyclerView;
     private CollectingAdapter mSortingAdapter;
-
+    private SharedPreferences sP;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +39,9 @@ public class CollectingAdmin extends AppCompatActivity {
 
         textView = findViewById(R.id.daira_name);
         recyclerView = findViewById(R.id.collect_admin_recycler);
+        sP = getSharedPreferences("lagna", Context.MODE_PRIVATE);
+        int governorate_position = sP.getInt("governorate_position", 1);
+        int daira = sP.getInt("daira_num", 1);
 
 
         //------------------------------------
@@ -41,7 +49,9 @@ public class CollectingAdmin extends AppCompatActivity {
         viewModel = ViewModelProviders.of(this).get(CollectingAdminViewModel.class);
 
         //This values have to get it from the input --->
-        viewModel.getDayra(18, 1).observe(this, new Observer<ArrayList<DayraObjList>>() {
+
+
+        viewModel.getDayra(governorate_position, daira).observe(this, new Observer<ArrayList<DayraObjList>>() {
             @Override
             public void onChanged(ArrayList<DayraObjList> ob) {
 
@@ -52,10 +62,18 @@ public class CollectingAdmin extends AppCompatActivity {
                 mSortingAdapter = new CollectingAdapter(getApplicationContext(), dayraObj);
                 recyclerView.setAdapter(mSortingAdapter);
                 mSortingAdapter.notifyDataSetChanged();
-                    //      Log.d("OPOPOP", ob.getName());
+                //      Log.d("OPOPOP", ob.getName());
             }
         });
 
+
+        findViewById(R.id.btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), SortingAdmin.class);
+                startActivity(intent);
+            }
+        });
 
     }
 }

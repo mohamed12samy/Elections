@@ -10,8 +10,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".view.SurveyAdmin"></activity>
-        <activity android:name=".view.SchoolsDataEntry"></activity>
+        <activity android:name=".view.PieChartActivity"></activity>
+        <activity android:name=".view.BarChartActivity" />
+        <activity android:name=".view.DataEntryBase" />
+        <activity android:name=".view.CandidatesDataEntry" />
+        <activity android:name=".view.SurveyAdmin" />
+        <activity android:name=".view.SchoolsDataEntry" />
         <activity android:name=".view.QsmsDataEntry" />
         <activity android:name=".view.DataEntry" />
         <activity android:name=".view.SortingAdmin" />

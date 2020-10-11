@@ -1,13 +1,33 @@
 package com.example.elections.model;
 
-import java.util.HashMap;
+import android.os.Parcel;
+import android.os.Parcelable;
 
-public class Candidates {
+
+public class Candidates implements Parcelable {
 
 
     private String name;
     private long votes;
     private String key;
+
+    protected Candidates(Parcel in) {
+        name = in.readString();
+        votes = in.readLong();
+        key = in.readString();
+    }
+
+    public static final Creator<Candidates> CREATOR = new Creator<Candidates>() {
+        @Override
+        public Candidates createFromParcel(Parcel in) {
+            return new Candidates(in);
+        }
+
+        @Override
+        public Candidates[] newArray(int size) {
+            return new Candidates[size];
+        }
+    };
 
     public String getKey() {
         return key;
@@ -40,4 +60,15 @@ public class Candidates {
     }
 
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(name);
+        parcel.writeLong(votes);
+        parcel.writeString(key);
+    }
 }

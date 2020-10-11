@@ -103,10 +103,11 @@
             />
     </LinearLayout>
     </LinearLayout>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/sorting_admin_recycler"
         android:layout_width="match_parent"
-        android:layout_height="350dp"
+        android:layout_height="300dp"
         android:layout_marginTop="24dp"
         android:layout_marginLeft="4dp"
         android:layout_marginRight="4dp"
@@ -114,4 +115,40 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linear_layout" />
 
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/addBarChart"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="20dp"
+        android:text="بار تشارت"
+        android:textAllCaps="false"
+        android:textStyle="bold"
+        android:textColor="@color/colorPrimary"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/addBieChart"
+        app:layout_constraintTop_toBottomOf="@id/sorting_admin_recycler"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:backgroundTint="#2A454E"
+        />
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/addBieChart"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="20dp"
+        android:text="باي تشارت"
+        android:textAllCaps="false"
+        android:textStyle="bold"
+        android:textColor="@color/colorPrimary"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/addBarChart"
+        app:layout_constraintTop_toBottomOf="@id/sorting_admin_recycler"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:backgroundTint="#2A454E"
+        />
 </androidx.constraintlayout.widget.ConstraintLayout>

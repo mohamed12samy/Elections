@@ -35,12 +35,29 @@
         android:paddingRight="12dp"
         android:background="@color/button_color"
         android:textColor="@color/colorPrimary"
-        android:textSize="32sp"
+        android:textSize="25sp"
         android:textStyle="bold"
         android:layout_marginTop="24dp"
-
         />
 
+    <Button
+        android:id="@+id/btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/text"
+        android:text="الي الفرز >>"
+        android:layout_margin="8dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
+        android:background="@color/button_color"
+        android:textColor="@color/colorPrimary"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        android:layout_marginTop="24dp"
+        />
 <LinearLayout
     android:id="@+id/linear_layout"
     android:layout_width="match_parent"
