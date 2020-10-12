@@ -1,0 +1,35 @@
+<resources>
+    <string name="app_name">Elections</string>
+    <string name="governates_prompt">اختر المحافظة</string>
+    <string-array name="governates">
+        <item>القاهرة</item>
+        <item>الإسكندرية</item>
+        <item>بورسعيد</item>
+        <item>الإسماعيلية</item>
+        <item>القليوبية</item>
+        <item>الشرقية</item>
+        <item>الدقهلية</item>
+        <item>دمياط</item>
+        <item>كفر الشيخ</item>
+        <item>الغربية</item>
+        <item>المنوفية</item>
+        <item>االبحيرة</item>
+        <item>الجيزة</item>
+        <item>الفيوم</item>
+        <item>بنى سويف</item>
+        <item>المنيا</item>
+        <item>أسيوط</item>
+        <item>سوهاج</item>
+        <item>قنا</item>
+        <item>الأقصر</item>
+        <item>اسوان</item>
+        <item>الوادى الجديد</item>
+        <item>البحر الاحمر</item>
+        <item>شمال سيناء</item>
+        <item>اجنوب سيناء</item>
+
+    </string-array>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>
