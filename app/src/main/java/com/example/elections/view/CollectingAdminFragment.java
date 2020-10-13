@@ -70,6 +70,13 @@ public class CollectingAdminFragment extends Fragment {
                 //      Log.d("OPOPOP", ob.getName());
             }
         });
+        TextView totalVotes = view.findViewById(R.id.votes_num);
+        viewModel.getTotalVotes().observe(this, new Observer<Integer>() {
+            @Override
+            public void onChanged(Integer integer) {
+                totalVotes.setText(integer+"");
+            }
+        });
 
 
        /* view.findViewById(R.id.btn).setOnClickListener(new View.OnClickListener() {

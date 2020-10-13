@@ -13,9 +13,13 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.elections.R;
+import com.example.elections.ResultForView;
+import com.example.elections.VoteSorting;
+import com.example.elections.viewModel.AdminBaseViewModel;
+import com.example.elections.viewModel.LagnaBaseViewModel;
 import com.google.android.material.textfield.TextInputEditText;
 
-public class LagnaBase extends AppCompatActivity {
+public class LagnaBase extends AppCompatActivity implements ResultForView {
 
 
     private SharedPreferences sharedPreferences;
@@ -24,6 +28,14 @@ public class LagnaBase extends AppCompatActivity {
     TextInputEditText school_num;
     TextInputEditText lagna_num;
     Spinner spinner;
+
+
+    LagnaBaseViewModel viewModel = new LagnaBaseViewModel(this);
+
+    String daira ;
+    String qesm ;
+    String school;
+    String lagna;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,24 +63,13 @@ public class LagnaBase extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 /**/
-                String daira = daira_num.getText().toString();
-                String qesm = qesm_num.getText().toString();
-                String school = school_num.getText().toString();
-                String lagna = lagna_num.getText().toString();
+                daira = daira_num.getText().toString();
+                qesm = qesm_num.getText().toString();
+                school = school_num.getText().toString();
+                lagna = lagna_num.getText().toString();
 
                 if(daira.length() > 0 && qesm.length()>0 && school.length()>0 && lagna.length()>0) {
-                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putInt("governorate_position", spinner.getSelectedItemPosition() + 1).apply();
-                    editor.putInt("daira_num", Integer.parseInt(daira_num.getText().toString())).apply();
-                    editor.putInt("qesm_num", Integer.parseInt(qesm_num.getText().toString())).apply();
-                    editor.putInt("school_num", Integer.parseInt(school_num.getText().toString())).apply();
-                    editor.putInt("lagna_num", Integer.parseInt(lagna_num.getText().toString())).apply();
-                    editor.putBoolean("in", true);
-                    editor.commit();
-
-                    Intent i = new Intent(LagnaBase.this, LagnaFlow.class);
-                    startActivity(i);
-                    finish();
+                    viewModel.checkLoginLagna((spinner.getSelectedItemPosition() + 1),daira, qesm, school, lagna);
                 }else{
                     Toast.makeText(LagnaBase.this, "من فضلك املئ الخانات كلها", Toast.LENGTH_SHORT).show();
                 }
@@ -87,5 +88,21 @@ public class LagnaBase extends AppCompatActivity {
 
             }
         });
+    }
+
+    @Override
+    public void getIn() {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt("governorate_position", spinner.getSelectedItemPosition() + 1).apply();
+        editor.putInt("daira_num", Integer.parseInt(daira_num.getText().toString())).apply();
+        editor.putInt("qesm_num", Integer.parseInt(qesm_num.getText().toString())).apply();
+        editor.putInt("school_num", Integer.parseInt(school_num.getText().toString())).apply();
+        editor.putInt("lagna_num", Integer.parseInt(lagna_num.getText().toString())).apply();
+        editor.putBoolean("in", true);
+        editor.commit();
+
+        Intent i = new Intent(LagnaBase.this, LagnaFlow.class);
+        startActivity(i);
+        finish();
     }
 }

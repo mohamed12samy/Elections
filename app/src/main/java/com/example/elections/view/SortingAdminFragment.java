@@ -95,6 +95,17 @@ public class SortingAdminFragment extends Fragment implements VoteSorting {
             }
         });
 
+        view.findViewById(R.id.clear_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ArrayList<String> c = new ArrayList<>();
+
+                for(int i=0; i<(seats*2); i++){
+                    c.add(candidates.get(i).getKey());
+                }
+                viewModel.clearDB(governorate_position, daira, c);
+            }
+        });
         return view;
     }
 

@@ -39,6 +39,26 @@
             android:textStyle="bold" />
 
     </com.google.android.material.appbar.MaterialToolbar>
+
+    <TextView
+        android:id="@+id/votes_num"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/my_toolbar"
+        android:text="2"
+        android:layout_margin="8dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
+        android:textColor="#000"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/text_back"
+        />
+
     <TextView
             android:id="@+id/daira_name"
             android:layout_width="wrap_content"

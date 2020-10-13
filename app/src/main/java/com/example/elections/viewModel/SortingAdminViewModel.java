@@ -8,6 +8,8 @@ import com.example.elections.model.Candidates;
 import com.example.elections.repository.ElectionRepository;
 import com.example.elections.VoteSorting;
 
+import java.util.ArrayList;
+
 public class SortingAdminViewModel extends ViewModel implements Votes {
 
     private VoteSorting view;
@@ -48,5 +50,9 @@ public class SortingAdminViewModel extends ViewModel implements Votes {
     @Override
     public void setSeats(int s) {
         view.setSeats(s);
+    }
+
+    public void clearDB(int governorate_position, int daira, ArrayList<String> c) {
+        repository.clearDB(governorate_position, daira, c);
     }
 }

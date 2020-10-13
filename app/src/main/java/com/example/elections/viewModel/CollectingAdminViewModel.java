@@ -15,6 +15,7 @@ public class CollectingAdminViewModel extends ViewModel {
 
     private ElectionRepository repository;
     private MutableLiveData<ArrayList<DayraObjList>> dayra = new MutableLiveData<>();
+    private MutableLiveData<Integer> total = new MutableLiveData<>();
 
     public CollectingAdminViewModel(){
         repository = ElectionRepository.getInstance();
@@ -27,4 +28,9 @@ public class CollectingAdminViewModel extends ViewModel {
         return dayra;
     }
 
+    public LiveData<Integer> getTotalVotes(){
+        total = (MutableLiveData<Integer>) repository.getTotalVotes();
+
+        return total;
+    }
 }

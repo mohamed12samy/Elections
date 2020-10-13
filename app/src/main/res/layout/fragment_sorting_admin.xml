@@ -26,6 +26,15 @@
         app:layout_constraintTop_toTopOf="parent"
         >
 
+        <Button
+            android:id="@+id/clear_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="التحضير للاعادة"
+            android:background="@null"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            />
         <TextView
             android:id="@+id/toolbar_title"
             android:layout_width="250dp"

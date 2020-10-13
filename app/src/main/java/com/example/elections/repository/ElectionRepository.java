@@ -84,8 +84,39 @@ public class ElectionRepository {
 
     public void updateCounter(int votes) {
         update_counter_ref.child("vots_num").setValue(votes);
+        get_candidates_ref.child("votes_num").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.getValue() != null){
+                    get_candidates_ref.child("votes_num").setValue(Integer.parseInt(snapshot.getValue().toString()) + 1);
+                }else {
+                    get_candidates_ref.child("votes_num").setValue(1);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
+    MutableLiveData<Integer> totalVotes = new SingleLiveEvent<>();
+    public LiveData<Integer> getTotalVotes(){
+        get_candidates_ref.child("votes_num").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                totalVotes.setValue(Integer.parseInt(snapshot.getValue().toString()));
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+        return totalVotes;
+
+    }
     public LiveData<List<Candidates>> getCandidates() {
 
         get_candidates_ref.child("candidates").addListenerForSingleValueEvent(new ValueEventListener() {
@@ -274,6 +305,24 @@ public class ElectionRepository {
     }
 
     //check login for lagna.
+    public void checkLoginLagna(int g, String daira, String qesm, String school, String lagna, ResultOfLogin result) {
+        DatabaseReference ref = db.getReference("vots/Governorate/"+g+"/dayra/"+daira+
+                "/qsms/"+qesm+"/scools/"+school+"/lagna/"+lagna);
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.getValue() != null){
+                    result.changeFlag(true);
+                }else
+                    result.changeFlag(false);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
     public void checkLogin(int governorate_position, int daira_num, String password, ResultOfLogin result) {
 
         get_password_ref = db.getReference("admins/" + governorate_position + "/dayra/" + daira_num + "/password");
@@ -385,5 +434,12 @@ public class ElectionRepository {
 
             }
         });
+    }
+
+
+    public void clearDB(int governorate_position, int daira, ArrayList<String> c) {
+        DatabaseReference ref =
+                db.getReference("vots/Governorate/"+governorate_position+
+                        "/dayra/"+daira+"/candidates/1/votes_num");
     }
 }
