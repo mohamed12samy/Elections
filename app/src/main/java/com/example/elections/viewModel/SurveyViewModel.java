@@ -16,6 +16,8 @@ public class SurveyViewModel extends ViewModel {
 
     public SurveyViewModel(){
         repository = ElectionRepository.getInstance();
+        repository.getDateFromSharedPreference("mandoop");
+        repository.conntectWithDataBase();
     }
     public LiveData<List<Candidates>> getCandidates(){
         candidates = (MutableLiveData<List<Candidates>>) repository.getCandidates();

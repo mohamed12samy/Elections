@@ -7,6 +7,8 @@ public class QesmViewModel {
 
     public QesmViewModel(){
         repository = ElectionRepository.getInstance();
+        repository.getDateFromSharedPreference("lagna");
+        repository.conntectWithDataBase();
     }
     public void addNewQesm(String qesm_name,int governorate_position , int dayra_number ,int school_num,int qesm_num)
     {

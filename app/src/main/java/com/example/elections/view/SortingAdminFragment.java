@@ -70,8 +70,8 @@ public class SortingAdminFragment extends Fragment implements VoteSorting {
         barChart = view.findViewById(R.id.barChart);
 
         sP = getActivity().getSharedPreferences("lagna", Context.MODE_PRIVATE);
-        int governorate_position = sP.getInt("governorate_position", 1);
-        int daira = sP.getInt("daira_num", 1);
+        int governorate_position = sP.getInt("governorate_position", 0);
+        int daira = sP.getInt("daira_num", 0);
 
 
         viewModel.getValidVotes(governorate_position, daira);

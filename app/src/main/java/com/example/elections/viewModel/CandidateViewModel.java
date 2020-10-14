@@ -9,6 +9,8 @@ public class CandidateViewModel extends ViewModel {
 
     public CandidateViewModel() {
         repository = ElectionRepository.getInstance();
+        repository.getDateFromSharedPreference("lagna");
+        repository.conntectWithDataBase();
     }
 
     public void addNewCandidate(String candidate_name, int governorate_position, int dayra_number) {

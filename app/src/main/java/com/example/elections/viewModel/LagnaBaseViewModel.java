@@ -21,7 +21,6 @@ public class LagnaBaseViewModel extends ViewModel implements ResultOfLogin {
     }
 
     public void checkLogin(int governorate_position, int daira_num, String password) {
-
         repository.checkLogin(governorate_position, daira_num, password, this);
     }
 

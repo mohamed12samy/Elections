@@ -9,6 +9,8 @@ public class dayraViewModel extends ViewModel {
 
     public dayraViewModel(){
         repository = ElectionRepository.getInstance();
+        repository.getDateFromSharedPreference("lagna");
+        repository.conntectWithDataBase();
     }
     public void addNewDayra(String dayra_name,int governorate_position , int dayra_number ,int seats_number,int Qesm_counts)
     {

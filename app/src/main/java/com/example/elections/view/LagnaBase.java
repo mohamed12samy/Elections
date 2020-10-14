@@ -21,14 +21,12 @@ import com.google.android.material.textfield.TextInputEditText;
 
 public class LagnaBase extends AppCompatActivity implements ResultForView {
 
-
     private SharedPreferences sharedPreferences;
     TextInputEditText daira_num;
     TextInputEditText qesm_num;
     TextInputEditText school_num;
     TextInputEditText lagna_num;
     Spinner spinner;
-
 
     LagnaBaseViewModel viewModel = new LagnaBaseViewModel(this);
 

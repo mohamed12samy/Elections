@@ -38,6 +38,7 @@ public class ElectionRepository {
 
     final MutableLiveData<List<Candidates>> candidates = new SingleLiveEvent<>();
     final MutableLiveData<List<Candidates>> candidates2 = new SingleLiveEvent<List<Candidates>>();
+    SharedPreferences sP;
 
     final MutableLiveData<ArrayList<DayraObjList>> dayraSingleLiveEvent = new SingleLiveEvent<ArrayList<DayraObjList>>();
 
@@ -49,15 +50,20 @@ public class ElectionRepository {
 
     private ElectionRepository() {
         db = MyApplication.getFirebaseInstance();
-        SharedPreferences sP = MyApplication.getInstance().getSharedPreferences("mandoop", Context.MODE_PRIVATE);
-        SharedPreferences lagnaSP = MyApplication.getInstance().getSharedPreferences("lagna", Context.MODE_PRIVATE);
+        //getDateFromSharedPreference();
+        //conntectWithDataBase();
+    }
 
-        governorate_position = sP.getInt("governorate_position", 1);
-        daira = sP.getInt("daira_num", 1);
-        qesm = sP.getInt("qesm_num", 1);
-        school = sP.getInt("school_num", 1);
-        lagna = sP.getInt("lagna_num", 1);
+    public void getDateFromSharedPreference(String nameOfSharedPreference) {
+        sP = MyApplication.getInstance().getSharedPreferences(nameOfSharedPreference, Context.MODE_PRIVATE);
+        governorate_position = sP.getInt("governorate_position", 0);
+        daira = sP.getInt("daira_num", 0);
+        qesm = sP.getInt("qesm_num", 0);
+        school = sP.getInt("school_num", 0);
+        lagna = sP.getInt("lagna_num", 0);
+    }
 
+    public void conntectWithDataBase() {
         update_counter_ref = db.getReference("vots/" +
                 "Governorate/" + governorate_position + "/dayra/" + daira + "/qsms/" + qesm +
                 "/scools/" + school + "/lagna/" + lagna);
@@ -87,26 +93,27 @@ public class ElectionRepository {
         get_candidates_ref.child("votes_num").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.getValue() != null){
+                if (snapshot.getValue() != null) {
                     get_candidates_ref.child("votes_num").setValue(Integer.parseInt(snapshot.getValue().toString()) + 1);
-                }else {
+                } else {
                     get_candidates_ref.child("votes_num").setValue(1);
                 }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
             }
         });
     }
 
     MutableLiveData<Integer> totalVotes = new SingleLiveEvent<>();
-    public LiveData<Integer> getTotalVotes(){
+
+    public LiveData<Integer> getTotalVotes() {
         get_candidates_ref.child("votes_num").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                totalVotes.setValue(Integer.parseInt(snapshot.getValue().toString()));
+                if (snapshot.getValue() != null)
+                    totalVotes.setValue(Integer.parseInt(snapshot.getValue().toString()));
             }
 
             @Override
@@ -117,6 +124,7 @@ public class ElectionRepository {
         return totalVotes;
 
     }
+
     public LiveData<List<Candidates>> getCandidates() {
 
         get_candidates_ref.child("candidates").addListenerForSingleValueEvent(new ValueEventListener() {
@@ -160,10 +168,11 @@ public class ElectionRepository {
                             if (dataSnapshot != null) {
                                 Candidates c =
                                         new Candidates(dataSnapshot.getKey(), dataSnapshot.child("name").getValue().toString(),
-                                                (Long) dataSnapshot.child("votes_num").getValue());
+                                                (Long) dataSnapshot.child("votes_num").getValue(), (Long) dataSnapshot.child("votes_num_survey").getValue());
                                 candi.add(c);
                             }
                         }
+                        Log.d("!!!!", "-*-*-*" + candi.get(0).getName() + " " + candi.get(0).getKey());
                         Collections.reverse(candi);
                         candidates2.setValue(candi);
                     }
@@ -190,7 +199,6 @@ public class ElectionRepository {
                 ArrayList<Qesm> qesms = new ArrayList<>();
 
                 for (int i = 0; i < snapshot.child("qsms").getChildrenCount(); i++) {
-
                     qesms.add(new Qesm(snapshot.child("qsms/" + (i + 1) + "/name").getValue().toString()));
                     ArrayList<School> schools = new ArrayList<>();
                     for (int j = 0; j < snapshot.child("qsms/" + (i + 1) + "/scools").getChildrenCount(); j++) {
@@ -202,7 +210,6 @@ public class ElectionRepository {
                             dayra = new DayraObjList();
                             depth++;
                             legan.add(Integer.parseInt(snapshot.child("qsms/" + (i + 1) + "/scools/" + (j + 1) + "/lagna/" + (l + 1) + "/vots_num").getValue().toString()));
-
                             //----------------------------------data
                             dayra.setDayraName(snapshot.child("name").getValue().toString());
                             dayra.setQesmName(snapshot.child("qsms/" + (i + 1) + "/name").getValue().toString());
@@ -305,15 +312,17 @@ public class ElectionRepository {
     }
 
     //check login for lagna.
-    public void checkLoginLagna(int g, String daira, String qesm, String school, String lagna, ResultOfLogin result) {
-        DatabaseReference ref = db.getReference("vots/Governorate/"+g+"/dayra/"+daira+
-                "/qsms/"+qesm+"/scools/"+school+"/lagna/"+lagna);
+    public void checkLoginLagna(int g, String daira, String qesm, String school, String
+            lagna, ResultOfLogin result) {
+        Log.d(TAG, "@#!!@#checkLogin: " + g);
+        DatabaseReference ref = db.getReference("vots/Governorate/" + g + "/dayra/" + daira +
+                "/qsms/" + qesm + "/scools/" + school + "/lagna/" + lagna);
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.getValue() != null){
+                if (snapshot.getValue() != null) {
                     result.changeFlag(true);
-                }else
+                } else
                     result.changeFlag(false);
             }
 
@@ -323,7 +332,9 @@ public class ElectionRepository {
             }
         });
     }
-    public void checkLogin(int governorate_position, int daira_num, String password, ResultOfLogin result) {
+
+    public void checkLogin(int governorate_position, int daira_num, String
+            password, ResultOfLogin result) {
 
         get_password_ref = db.getReference("admins/" + governorate_position + "/dayra/" + daira_num + "/password");
         get_password_ref.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -346,23 +357,27 @@ public class ElectionRepository {
     }
 
     // this is for testing ..
-    public void add_dayra(int governorate_position, String dayra_name, int dayra_number, int seats_number, int qesm_num) {
+    public void add_dayra(int governorate_position, String dayra_name, int dayra_number,
+                          int seats_number, int qesm_num) {
         add_dayra_ref.child(governorate_position + "/dayra/" + dayra_number + "/name").setValue(dayra_name);
-        add_dayra_ref.child(governorate_position + "/dayra/" + dayra_number + "/seats_number").setValue(seats_number);
+        add_dayra_ref.child(governorate_position + "/dayra/" + dayra_number + "/votes_num").setValue(0);
+        add_dayra_ref.child(governorate_position + "/dayra/" + dayra_number + "/seats_num").setValue(seats_number);
         add_dayra_ref.child(governorate_position + "/dayra/" + dayra_number + "/qesm_num").setValue(qesm_num);
-        add_dayra_ref.child(governorate_position + "/dayra/" + dayra_number + "/voters_num").setValue(0);
+        //  add_dayra_ref.child(governorate_position + "/dayra/" + dayra_number + "/voters_num").setValue(0);
         add_dayra_ref.child(governorate_position + "/dayra/" + dayra_number + "/valid_vots").setValue(0);
         add_dayra_ref.child(governorate_position + "/dayra/" + dayra_number + "/invalid_vots").setValue(0);
         get_password_ref = db.getReference("admins/");
         get_password_ref.child(governorate_position + "/dayra/" + dayra_number + "/password").setValue(dayra_number + "entkhabat2020");
     }
 
-    public void addNewQesm(String qesm_name, int governorate_position, int dayra_number, int school_num, int qesm_num) {
+    public void addNewQesm(String qesm_name, int governorate_position, int dayra_number,
+                           int school_num, int qesm_num) {
         add_dayra_ref.child(governorate_position + "/dayra/" + dayra_number + "/qsms/" + qesm_num + "/name").setValue(qesm_name);
         add_dayra_ref.child(governorate_position + "/dayra/" + dayra_number + "/qsms/" + qesm_num + "/schools_num").setValue(school_num);
     }
 
-    public void addNewSchool(String school_name, int governorate_position, int dayra_number, int school_num, int qesm_num, int lagan_num) {
+    public void addNewSchool(String school_name, int governorate_position, int dayra_number,
+                             int school_num, int qesm_num, int lagan_num) {
         add_dayra_ref.child(governorate_position + "/dayra/" + dayra_number + "/qsms/" + qesm_num + "/scools/" + school_num + "/name").setValue(school_name);
         add_dayra_ref.child(governorate_position + "/dayra/" + dayra_number + "/qsms/" + qesm_num + "/scools/" + school_num + "/legan_num").setValue(lagan_num);
         for (int i = 0; i < lagan_num; i++) {
@@ -405,6 +420,7 @@ public class ElectionRepository {
         get_changed_Date.child(governorate_position + "/dayra/" + daira + "/seats_num").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+
                 Log.d("sEATS", snapshot.getValue().toString());
                 viewModel.setSeats(Integer.parseInt(snapshot.getValue().toString()));
             }
@@ -422,11 +438,12 @@ public class ElectionRepository {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 int i = 1;
                 if (snapshot.getValue() != null) {
-                    i = Integer.parseInt(String.valueOf(snapshot.getChildrenCount())) + 1;
+                    i = Integer.parseInt(String.valueOf(snapshot.getChildrenCount(  ))) + 1;
                 }
                 add_dayra_ref.child(governorate_position + "/dayra/" + dayra_number + "/candidates/" + i + "/name").setValue(candidate_name);
                 add_dayra_ref.child(governorate_position + "/dayra/" + dayra_number + "/candidates/" + i + "/votes_num").setValue(0);
                 add_dayra_ref.child(governorate_position + "/dayra/" + dayra_number + "/candidates/" + i + "/votes_num_survey").setValue(0);
+                //https://election-82a55.firebaseio.com/vots/Governorate/1/dayra/1/candidates/1/votes_num_survey
             }
 
             @Override
@@ -436,10 +453,78 @@ public class ElectionRepository {
         });
     }
 
+    public void reformateDayra(int governorate_position, int daira) {
+
+        add_dayra_ref.child(governorate_position + "/dayra/" + daira).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    if (dataSnapshot != null) {
+                        add_dayra(governorate_position, snapshot.child("name").getValue().toString(), daira, Integer.parseInt(snapshot.child("seats_num").getValue().toString()), Integer.parseInt(snapshot.child("qesm_num").getValue().toString()));
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    public void reformateQesm(int governorate_position, int daira) {
+        add_dayra_ref.child(governorate_position + "/dayra/" + daira).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                int qsm = 0;
+                for (int i = 0; i < snapshot.child("qsms").getChildrenCount(); i++) { // qsms
+                    for (int j = 0; j < snapshot.child("qsms/" + (i + 1) + "/scools").getChildrenCount(); j++) { //schools
+                        addNewSchool(snapshot.child("qsms/" + (i + 1) + "/scools/" + (j + 1) + "/name").getValue().toString(),
+                                governorate_position, daira, j + 1, i + 1
+                                , Integer.parseInt(snapshot.child("qsms/" + (i + 1) + "/scools/" + (j + 1) + "/legan_num").getValue().toString()));
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    public void reformateCandidates(int governorate_position, int daira, ArrayList<String> c) {
+        add_dayra_ref.child(governorate_position + "/dayra/" + daira + "/candidates").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.getValue() != null) {
+
+                    for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                        if (dataSnapshot != null) {
+
+                            if(c.contains(dataSnapshot.getKey())) {
+                                Log.d(TAG, "###--candidate: k " + dataSnapshot.getKey());
+                                add_dayra_ref.child(governorate_position+"/dayra/"+daira+"/candidates/"+dataSnapshot.getKey()+"/votes_num").setValue(0);
+                                add_dayra_ref.child(governorate_position+"/dayra/"+daira+"/candidates/"+dataSnapshot.getKey()+"/votes_num_survey").setValue(0);
+                            }else{
+                                add_dayra_ref.child(governorate_position+"/dayra/"+daira+"/candidates/"+dataSnapshot.getKey()).removeValue();
+                                Log.d(TAG, "###--candidate:  DDD " + dataSnapshot.getKey());
+                            }
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
 
     public void clearDB(int governorate_position, int daira, ArrayList<String> c) {
-        DatabaseReference ref =
-                db.getReference("vots/Governorate/"+governorate_position+
-                        "/dayra/"+daira+"/candidates/1/votes_num");
+        reformateDayra(governorate_position,daira);
+        reformateQesm(governorate_position, daira);
+        reformateCandidates(governorate_position, daira, c);
     }
 }

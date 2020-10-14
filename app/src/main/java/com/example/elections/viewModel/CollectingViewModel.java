@@ -10,6 +10,8 @@ public class CollectingViewModel extends ViewModel {
 
     public CollectingViewModel(){
         repository = ElectionRepository.getInstance();
+        repository.getDateFromSharedPreference("mandoop");
+        repository.conntectWithDataBase();
     }
 
     public void updateCounter(int votes){

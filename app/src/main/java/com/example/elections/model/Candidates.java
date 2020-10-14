@@ -9,11 +9,13 @@ public class Candidates implements Parcelable {
 
     private String name;
     private long votes;
+    private long votes_survay;
     private String key;
 
     protected Candidates(Parcel in) {
         name = in.readString();
         votes = in.readLong();
+        votes_survay = in.readLong();
         key = in.readString();
     }
 
@@ -39,6 +41,25 @@ public class Candidates implements Parcelable {
 
     public String getName() {
         return name;
+    }
+
+    public Candidates( String key , String name, long votes, long votes_survay) {
+        this.name = name;
+        this.votes = votes;
+        this.votes_survay = votes_survay;
+        this.key = key;
+    }
+
+    public void setVotes(long votes) {
+        this.votes = votes;
+    }
+
+    public long getVotes_survay() {
+        return votes_survay;
+    }
+
+    public void setVotes_survay(long votes_survay) {
+        this.votes_survay = votes_survay;
     }
 
     public void setName(String name) {
@@ -69,6 +90,7 @@ public class Candidates implements Parcelable {
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeString(name);
         parcel.writeLong(votes);
+        parcel.writeLong(votes_survay);
         parcel.writeString(key);
     }
 }

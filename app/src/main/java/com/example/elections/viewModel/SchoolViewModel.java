@@ -9,6 +9,8 @@ public class SchoolViewModel extends ViewModel {
 
     public SchoolViewModel(){
         repository = ElectionRepository.getInstance();
+        repository.getDateFromSharedPreference("lagna");
+        repository.conntectWithDataBase();
     }
     public void addNewSchool(String school_name,int governorate_position , int dayra_number ,int school_num,int qesm_num,int lagan_num)
     {

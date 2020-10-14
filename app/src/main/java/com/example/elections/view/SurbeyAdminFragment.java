@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import com.example.elections.R;
 import com.example.elections.VoteSorting;
 import com.example.elections.adapter.SortingAdminAdapter;
+import com.example.elections.adapter.SurvayAdminAdapter;
 import com.example.elections.model.Candidates;
 import com.example.elections.viewModel.SortingViewModel;
 import com.github.mikephil.charting.charts.BarChart;
@@ -45,7 +46,7 @@ public class SurbeyAdminFragment extends Fragment implements VoteSorting {
 
 
     List<Candidates> candidates = new ArrayList<>();
-    private SortingAdminAdapter mSortingAdminAdapter;
+    private SurvayAdminAdapter mSortingAdminAdapter;
     private SharedPreferences sP;
 
     @Override
@@ -70,12 +71,12 @@ public class SurbeyAdminFragment extends Fragment implements VoteSorting {
             public void onChanged(List<Candidates> ob) {
                 candidates = ob;
 
-                mSortingAdminAdapter = new SortingAdminAdapter(getActivity(), candidates);
+                mSortingAdminAdapter = new SurvayAdminAdapter(getActivity(), candidates);
                 survey_admin_recycler.setLayoutManager(new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false));
                 survey_admin_recycler.setAdapter(mSortingAdminAdapter);
 
                 mSortingAdminAdapter.notifyDataSetChanged();
-
+                
                 setChart(barChart);
             }
         });
@@ -85,7 +86,9 @@ public class SurbeyAdminFragment extends Fragment implements VoteSorting {
 
     dataEnteries.clear();
     labels = new ArrayList<>();
-    for(int i=0; i<10; i++) {
+    int x = candidates.size()<10?candidates.size():10;
+
+    for(int i=0; i<x; i++) {
         dataEnteries.add(new BarEntry(i, candidates.get(i).getVotes(), candidates.get(i).getName()));
         labels.add(candidates.get(i).getName());
     }

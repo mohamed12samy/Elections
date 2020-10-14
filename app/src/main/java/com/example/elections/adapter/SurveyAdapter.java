@@ -85,6 +85,7 @@ public class SurveyAdapter extends RecyclerView.Adapter<SurveyAdapter.ViewHolder
                             }
                         }
                         }else {
+                        listener.handleKey(0);
                         idx--;
                         checked.remove(getAdapterPosition()+"");
 

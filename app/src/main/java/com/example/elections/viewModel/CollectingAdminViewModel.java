@@ -19,6 +19,8 @@ public class CollectingAdminViewModel extends ViewModel {
 
     public CollectingAdminViewModel(){
         repository = ElectionRepository.getInstance();
+        repository.getDateFromSharedPreference("lagna");
+        repository.conntectWithDataBase();
     }
 
 

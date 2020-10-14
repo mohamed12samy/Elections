@@ -22,7 +22,7 @@ import java.util.List;
 public class Survey extends AppCompatActivity implements ClickListen {
 
 
-    String key1; String key2; int vote1; int vote2;
+    String key1; String key2; int idx = 0;
     List<Candidates> candidates = new ArrayList<>();
     private RecyclerView surveyRecycler;
     private SurveyAdapter mSurveyAdapter = new SurveyAdapter(this , candidates, this);
@@ -54,7 +54,7 @@ public class Survey extends AppCompatActivity implements ClickListen {
         findViewById(R.id.done_survey).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(key1 != null && key2 != null){
+                if(key1 != null && key2  != null && idx == 2){
                     surveyViewModel.updateVotes(key1, key2);
                     recreate();
                 }
@@ -85,6 +85,6 @@ public class Survey extends AppCompatActivity implements ClickListen {
 
     @Override
     public void handleKey(int idx) {
-
+        idx--;
     }
 }

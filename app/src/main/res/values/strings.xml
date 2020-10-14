@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Elections</string>
+    <string name="app_name">لحظه بلحظه</string>
     <string name="governates_prompt">اختر المحافظة</string>
     <string-array name="governates">
         <item>القاهرة</item>
