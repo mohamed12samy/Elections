@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/collectingFragment"
+        android:title="الحصر"
+        app:showAsAction="always"
+
+        />
+    <item
+        android:id="@+id/sortingFragment"
+        android:title="الفرز"
+        app:showAsAction="always"
+        />
+
+    <item
+        android:id="@+id/surveyFragment"
+        android:title="الاستطلاع"
+        app:showAsAction="always"
+        />
+
+</menu>
