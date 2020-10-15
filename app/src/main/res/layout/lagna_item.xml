@@ -23,7 +23,26 @@
         android:layout_marginTop="24dp"
 
         />
+<!--
+    <TextView
+        android:id="@+id/lagna_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:text="قلجنة 1"
+        android:layout_margin="8dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
+        android:textColor="#fff"
+        android:textSize="32sp"
+        android:textStyle="bold"
+        android:layout_marginTop="24dp"
 
+        />
+    -->
     <TextView
         android:id="@+id/lagna_votes"
         android:layout_width="wrap_content"
