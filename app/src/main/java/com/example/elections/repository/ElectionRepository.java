@@ -598,14 +598,14 @@ public class ElectionRepository {
                     for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                         if (dataSnapshot != null) {
 
-                            if(c.contains(dataSnapshot.getKey())) {
+                            //if(c.contains(dataSnapshot.getKey())) {
 //                                Log.d(TAG, "###--candidate: k " + dataSnapshot.getKey());
                                 add_dayra_ref.child(governorate_position+"/dayra/"+daira+"/candidates/"+dataSnapshot.getKey()+"/votes_num").setValue(0);
                                 add_dayra_ref.child(governorate_position+"/dayra/"+daira+"/candidates/"+dataSnapshot.getKey()+"/votes_num_survey").setValue(0);
-                            }else{
+                            /*}else{
                                 add_dayra_ref.child(governorate_position+"/dayra/"+daira+"/candidates/"+dataSnapshot.getKey()).removeValue();
 //                                Log.d(TAG, "###--candidate:  DDD " + dataSnapshot.getKey());
-                            }
+                            }*/
                         }
                     }
                 }
@@ -618,10 +618,32 @@ public class ElectionRepository {
         });
     }
 
-    public void clearDB(int governorate_position, int daira, ArrayList<String> c) {
-        reformateDayra(governorate_position,daira);
-        reformateQesm(governorate_position, daira);
-        reformateCandidates(governorate_position, daira, c);
+
+    public void clearDB(int governorate_position, int daira, String controller_pass,ArrayList<String> c) {
+        add_dayra_ref = db.getReference("vots/Governorate");
+        add_dayra_ref.child(governorate_position + "/dayra/" + daira +"/controller_pass").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Log.d("DFG","*******  "+ governorate_position+"  "+ controller_pass+"   "+daira );
+                if(snapshot.getValue() != null){
+                    Log.d("DFG","++++++");
+                    if(controller_pass.equals(snapshot.getValue().toString())){
+                        Log.d("DFG","------");
+                        reformateDayra(governorate_position,daira);
+                        reformateQesm(governorate_position, daira);
+                        reformateCandidates(governorate_position, daira, c);
+                    }else {
+                        Toast.makeText(MyApplication.getInstance(), "كلمة السر خطأ", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
     }
 
     public void checkLogin(int governorate_position, int daira_num, String password, int can_num, ICandidateBaseViewModel candidateBase) {

@@ -28,7 +28,7 @@ public class Candidates implements Parcelable {
 
     public void setPercentage(int votes, int pos) {
 
-        this.percentage = pos == 0 ?(this.votes*100)/votes : (this.votes_survay*100)/votes;
+        this.percentage = pos == 0 ?(this.votes*100)/(votes == 0 ?1:votes) : (this.votes_survay*100)/(votes == 0 ?1:votes);
     }
 
     public static final Creator<Candidates> CREATOR = new Creator<Candidates>() {

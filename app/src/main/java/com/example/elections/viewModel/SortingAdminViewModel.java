@@ -58,7 +58,7 @@ public class SortingAdminViewModel extends ViewModel implements Votes {
     }
 
     public void clearDB(int governorate_position, int daira, ArrayList<String> c) {
-        repository.clearDB(governorate_position, daira, c);
+        repository.clearDB(governorate_position, daira, "",c);
     }
 
     public void getTotalVotes(int governorate_position, int daira) {

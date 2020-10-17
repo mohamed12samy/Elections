@@ -111,7 +111,7 @@ public class SortingAdminFragment extends Fragment implements VoteSorting {
         viewModel.getInvalidVotes(governorate_position, daira);
 
 
-        view.findViewById(R.id.clear_button).setOnClickListener(new View.OnClickListener() {
+        /*view.findViewById(R.id.clear_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ArrayList<String> c = new ArrayList<>();
@@ -121,7 +121,7 @@ public class SortingAdminFragment extends Fragment implements VoteSorting {
                 }
                 viewModel.clearDB(governorate_position, daira, c);
             }
-        });
+        });*/
         return view;
     }
 
