@@ -3,6 +3,7 @@ package com.example.elections.repository;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
@@ -154,9 +155,9 @@ public class ElectionRepository {
         return candidates;
     }
 
-    public LiveData<List<Candidates>> getCandidates2(int governorate_position, int daira) {
+    public LiveData<List<Candidates>> getCandidates2(int governorate_position, int daira, int flag) {
 
-        get_candidates_ref2.child(governorate_position + "/dayra/" + daira + "/candidates/").orderByChild("votes_num")
+        get_candidates_ref2.child(governorate_position + "/dayra/" + daira + "/candidates/").orderByChild(flag == 0 ? "votes_num" :"votes_num_survey")
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -273,6 +274,21 @@ public class ElectionRepository {
             public void onCancelled(@NonNull DatabaseError error) {
             }
         });
+
+        get_candidates_ref.child("total_votes_survey").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.getValue() != null) {
+                    get_candidates_ref.child("total_votes_survey").setValue(Integer.parseInt(snapshot.getValue().toString()) + 1);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
     }
 
     public void updateValidInvalidVotes(int valid, int invalid, int total_votes) {
@@ -642,6 +658,51 @@ public class ElectionRepository {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 sortingAdminViewModel.TotalVotes(snapshot.getValue().toString());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    private MutableLiveData<String> survey_votes = new SingleLiveEvent<>();
+    public LiveData<String> getSurveyVotes() {
+        get_candidates_ref.child("total_votes_survey").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.getValue() != null){
+                    survey_votes.setValue(snapshot.getValue().toString());
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+        return survey_votes;
+    }
+
+    public void editPasswords(int governorate_position, int daira_num, String survey_pass, String mandoop_pass, String controller_pass) {
+        DatabaseReference ref = db.getReference("vots/Governorate/"+governorate_position+"/dayra/"+daira_num);
+
+        ref.child("controller_pass").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Log.d("passs", snapshot.getValue().toString());
+
+                if(snapshot.getValue() != null){
+
+                    if(controller_pass.equals(snapshot.getValue().toString())){
+                        Log.d("passs", snapshot.getValue().toString());
+                        ref.child("survey_pass").setValue(survey_pass);
+                        ref.child("mandoop_pass").setValue(mandoop_pass);
+
+                    }else
+                        Toast.makeText(MyApplication.getInstance(),"كلمة سر المتحكم خطأ", Toast.LENGTH_SHORT).show();
+                }
             }
 
             @Override

@@ -24,8 +24,8 @@ public class SortingViewModel extends ViewModel {
         candidates = (MutableLiveData<List<Candidates>>) repository.getCandidates();
         return candidates;
     }
-    public LiveData<List<Candidates>> getCandidates2(int governorate_position, int daira){
-        candidates2 = (MutableLiveData<List<Candidates>>) repository.getCandidates2(governorate_position,daira);
+    public LiveData<List<Candidates>> getCandidates2(int governorate_position, int daira, int flag){
+        candidates2 = (MutableLiveData<List<Candidates>>) repository.getCandidates2(governorate_position,daira,flag);
         return candidates2;
     }
 
@@ -35,5 +35,9 @@ public class SortingViewModel extends ViewModel {
 
     public void updateValidInvalidVotes(int valid, int invalid, int total){
         repository.updateValidInvalidVotes(valid, invalid, total);
+    }
+
+    public LiveData<String> getSurveyVotes() {
+        return repository.getSurveyVotes();
     }
 }

@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.example.elections.R;
 import com.example.elections.VoteSorting;
@@ -49,6 +50,10 @@ public class SurbeyAdminFragment extends Fragment implements VoteSorting {
     private SurvayAdminAdapter mSortingAdminAdapter;
     private SharedPreferences sP;
 
+    int survey_votes = 1;
+
+    TextView total_survey;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -56,7 +61,12 @@ public class SurbeyAdminFragment extends Fragment implements VoteSorting {
         View view = inflater.inflate(R.layout.fragment_surbey_admin, container, false);
 
 
+        total_survey = view.findViewById(R.id.total_votes);
+
         survey_admin_recycler = view.findViewById(R.id.survey_admin_recycler);
+        mSortingAdminAdapter = new SurvayAdminAdapter(getActivity(), candidates);
+        survey_admin_recycler.setLayoutManager(new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false));
+        survey_admin_recycler.setAdapter(mSortingAdminAdapter);
 
         barChart = view.findViewById(R.id.barChart);
 
@@ -66,21 +76,44 @@ public class SurbeyAdminFragment extends Fragment implements VoteSorting {
 
         sortingViewModel = ViewModelProviders.of(this).get(SortingViewModel.class);
 
-        sortingViewModel.getCandidates2(governorate_position,daira).observe(this, new Observer<List<Candidates>>() {
+        sortingViewModel.getSurveyVotes().observe(this, new Observer<String>() {
+            @Override
+            public void onChanged(String ob) {
+
+                if(ob != null){
+                    total_survey.setText(ob);
+                    survey_votes = Integer.parseInt(ob);
+                    if(candidates.size() >0){
+                        for(int i=0; i<candidates.size(); i++){
+                            candidates.get(i).setPercentage(Integer.parseInt(ob),1);
+                        }
+                        mSortingAdminAdapter.notifyDataSetChanged();
+                    }
+                }
+            }
+        });
+
+        sortingViewModel.getCandidates2(governorate_position,daira, 1).observe(this, new Observer<List<Candidates>>() {
             @Override
             public void onChanged(List<Candidates> ob) {
-                candidates = ob;
-                if(candidates.size() >0 && candidates != null){
-                    mSortingAdminAdapter = new SurvayAdminAdapter(getActivity(), candidates);
-                    survey_admin_recycler.setLayoutManager(new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false));
-                    survey_admin_recycler.setAdapter(mSortingAdminAdapter);
 
+                if(ob.size() >0 && ob != null){
+                    candidates.clear();
+                    candidates.addAll(ob);
+                    if(candidates.size() >0){
+                        for(int i=0; i<candidates.size(); i++){
+                            candidates.get(i).setPercentage(survey_votes,1);
+                        }
+                        mSortingAdminAdapter.notifyDataSetChanged();
+                    }
                     mSortingAdminAdapter.notifyDataSetChanged();
-
                     setChart(barChart);
                 }
             }
         });
+
+
+
         return view;
     }
     private void setChart(BarChart barChart){

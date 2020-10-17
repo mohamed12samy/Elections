@@ -39,6 +39,8 @@ public class SurvayAdminAdapter extends RecyclerView.Adapter<SurvayAdminAdapter.
             holder.can_name.setText(candidates.get(position).getName());
             holder.votesNum.setText(candidates.get(position).getVotes_survay()+"");
             holder.can_Num.setText(candidates.get(position).getKey()); /********* iiiiiiddddddd *********/
+            holder.percentage.setText( "%"+ candidates.get(position).getPercentage() );
+
         }
     }
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -46,12 +48,14 @@ public class SurvayAdminAdapter extends RecyclerView.Adapter<SurvayAdminAdapter.
         TextView can_Num;
         TextView votesNum;
         TextView can_name;
+        TextView percentage;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             can_Num = itemView.findViewById(R.id.candidate_num);
             can_name = itemView.findViewById(R.id.candidate_name);
             votesNum = itemView.findViewById(R.id.votesNum);
+            percentage = itemView.findViewById(R.id.percent);
         }
     }
 

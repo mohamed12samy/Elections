@@ -103,4 +103,22 @@
         app:layout_constraintTop_toBottomOf="@id/addSchool"
         app:backgroundTint="@color/colorPrimaryDark"
         />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/edit"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="50dp"
+        android:text="تعديل كلمات السر"
+        android:textAllCaps="false"
+        android:textColor="#fff"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        app:backgroundTint="@color/colorPrimaryDark"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/addCandidate"
+/>
 </androidx.constraintlayout.widget.ConstraintLayout>

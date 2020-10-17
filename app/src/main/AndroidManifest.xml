@@ -10,7 +10,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".CandidateBase"></activity>
+        <activity android:name=".EditPassword"></activity>
+        <activity android:name=".CandidateBase" />
         <activity android:name=".view.DataEntryBase" />
         <activity android:name=".view.CollectingAdmin" />
         <activity android:name=".view.CandidatesDataEntry" />

@@ -2,6 +2,7 @@ package com.example.elections.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 
 
 public class Candidates implements Parcelable {
@@ -11,12 +12,23 @@ public class Candidates implements Parcelable {
     private long votes;
     private long votes_survay;
     private String key;
+    private double percentage;
 
     protected Candidates(Parcel in) {
         name = in.readString();
         votes = in.readLong();
         votes_survay = in.readLong();
         key = in.readString();
+        percentage = in.readDouble();
+    }
+
+    public double getPercentage() {
+        return percentage;
+    }
+
+    public void setPercentage(int votes, int pos) {
+
+        this.percentage = pos == 0 ?(this.votes*100)/votes : (this.votes_survay*100)/votes;
     }
 
     public static final Creator<Candidates> CREATOR = new Creator<Candidates>() {
@@ -48,6 +60,7 @@ public class Candidates implements Parcelable {
         this.votes = votes;
         this.votes_survay = votes_survay;
         this.key = key;
+        this.percentage = 1.0;
     }
 
     public void setVotes(long votes) {
@@ -92,5 +105,6 @@ public class Candidates implements Parcelable {
         parcel.writeLong(votes);
         parcel.writeLong(votes_survay);
         parcel.writeString(key);
+        parcel.writeDouble(percentage);
     }
 }

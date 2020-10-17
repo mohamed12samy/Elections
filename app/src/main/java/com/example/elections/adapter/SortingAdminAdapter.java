@@ -13,16 +13,19 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.elections.ClickListen;
+import com.example.elections.Ichange;
 import com.example.elections.R;
 import com.example.elections.model.Candidates;
 
 import java.util.List;
 
-public class SortingAdminAdapter extends RecyclerView.Adapter<SortingAdminAdapter.ViewHolder> {
+public class SortingAdminAdapter extends RecyclerView.Adapter<SortingAdminAdapter.ViewHolder> implements Ichange {
     private List<Candidates> candidates;
+    private int total_votes = 1;
 
-    public SortingAdminAdapter(Context applicationContext, List<Candidates> candidates) {
+    public SortingAdminAdapter(Context applicationContext, List<Candidates> candidates, int votes) {
         this.candidates = candidates;
+        this.total_votes = votes;
     }
     @NonNull
     @Override
@@ -37,24 +40,32 @@ public class SortingAdminAdapter extends RecyclerView.Adapter<SortingAdminAdapte
     public void onBindViewHolder(@NonNull SortingAdminAdapter.ViewHolder holder, int position) {
 
         if(candidates.get(position) != null) {
-            Log.d("%%%RTRTRT",candidates.get(position).getName()+"");
 
             holder.can_name.setText(candidates.get(position).getName());
             holder.votesNum.setText(candidates.get(position).getVotes()+"");
             holder.can_Num.setText(candidates.get(position).getKey()); /********* iiiiiiddddddd *********/
+            holder.percentage.setText( "%"+ candidates.get(position).getPercentage() );
         }
     }
+
+    @Override
+    public void totalVotes(int votes) {
+        this.total_votes = votes;
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         TextView can_Num;
         TextView votesNum;
         TextView can_name;
+        TextView percentage;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             can_Num = itemView.findViewById(R.id.candidate_num);
             can_name = itemView.findViewById(R.id.candidate_name);
             votesNum = itemView.findViewById(R.id.votesNum);
+            percentage = itemView.findViewById(R.id.percent);
         }
     }
 

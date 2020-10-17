@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,10 +54,12 @@ public class SortingAdminFragment extends Fragment implements VoteSorting {
 
 
     List<Candidates> candidates = new ArrayList<>();
-    private SortingAdminAdapter mSortingAdminAdapter;
+    private SortingAdminAdapter mSortingAdminAdapter ;
+
     private SharedPreferences sP;
 
     int seats=0;
+    String valid="1";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -68,38 +71,45 @@ public class SortingAdminFragment extends Fragment implements VoteSorting {
         valid_votes = view.findViewById(R.id.valid_votes);
         total_votes = view.findViewById(R.id.total_votes);
 
-        sorting_admin_recycler = view.findViewById(R.id.sorting_admin_recycler);
-
         barChart = view.findViewById(R.id.barChart);
+
+        sorting_admin_recycler = view.findViewById(R.id.sorting_admin_recycler);
+        mSortingAdminAdapter = new SortingAdminAdapter(getActivity(), candidates, 1);
+        sorting_admin_recycler.setAdapter(mSortingAdminAdapter);
+        sorting_admin_recycler.setLayoutManager(new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false));
+
 
         sP = getActivity().getSharedPreferences("lagna", Context.MODE_PRIVATE);
         int governorate_position = sP.getInt("governorate_position", 0);
         int daira = sP.getInt("daira_num", 0);
 
-
-        viewModel.getValidVotes(governorate_position, daira);
-        viewModel.getTotalVotes(governorate_position, daira);
-        viewModel.getInvalidVotes(governorate_position, daira);
         viewModel.getSeats(governorate_position, daira);
 
         sortingViewModel = ViewModelProviders.of(this).get(SortingViewModel.class);
 
-        sortingViewModel.getCandidates2(governorate_position,daira).observe(this, new Observer<List<Candidates>>() {
+        sortingViewModel.getCandidates2(governorate_position,daira, 0).observe(this, new Observer<List<Candidates>>() {
             @Override
             public void onChanged(List<Candidates> ob) {
+                if(ob.size() > 0 && ob!=null){
+                    candidates.clear();
+                    candidates.addAll(ob);
 
-                candidates = ob;
-                if(candidates.size() > 0 && candidates!=null){
-                    mSortingAdminAdapter = new SortingAdminAdapter(getActivity(), candidates);
-                    sorting_admin_recycler.setLayoutManager(new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false));
-                    sorting_admin_recycler.setAdapter(mSortingAdminAdapter);
+                    //mSortingAdminAdapter = new SortingAdminAdapter(getActivity(), candidates);
+//                    sorting_admin_recycler.setLayoutManager(new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false));
+                    //sorting_admin_recycler.setAdapter(mSortingAdminAdapter);
 
+                    ValidVotes(valid);
                     mSortingAdminAdapter.notifyDataSetChanged();
 
                     setChart(barChart);
                 }
             }
         });
+
+        viewModel.getValidVotes(governorate_position, daira);
+        viewModel.getTotalVotes(governorate_position, daira);
+        viewModel.getInvalidVotes(governorate_position, daira);
+
 
         view.findViewById(R.id.clear_button).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -123,6 +133,7 @@ public class SortingAdminFragment extends Fragment implements VoteSorting {
             dataEnteries.add(new BarEntry(i, candidates.get(i).getVotes(), candidates.get(i).getName()));
             labels.add(candidates.get(i).getName());
         }
+
 
         barDataSet = new BarDataSet(dataEnteries,"المرشحين");
         barDataSet.setColors(ColorTemplate.MATERIAL_COLORS);
@@ -151,7 +162,14 @@ public class SortingAdminFragment extends Fragment implements VoteSorting {
     }
     @Override
     public void ValidVotes(String validVotes) {
+        this.valid = validVotes;
         valid_votes.setText(validVotes);
+        if(candidates.size() >0){
+            for(int i=0; i<candidates.size(); i++){
+                    candidates.get(i).setPercentage(Integer.parseInt(validVotes),0);
+                }
+            mSortingAdminAdapter.notifyDataSetChanged();
+        }
     }
 
     @Override
@@ -162,6 +180,7 @@ public class SortingAdminFragment extends Fragment implements VoteSorting {
     @Override
     public void totalvotes(String votes) {
         total_votes.setText(votes);
+
     }
 
     @Override

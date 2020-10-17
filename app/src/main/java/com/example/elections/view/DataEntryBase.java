@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
+import com.example.elections.EditPassword;
 import com.example.elections.R;
 
 public class DataEntryBase extends AppCompatActivity {
@@ -41,6 +42,14 @@ public class DataEntryBase extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(DataEntryBase.this,CandidatesDataEntry.class);
+                startActivity(i);
+            }
+        });
+
+        findViewById(R.id.edit).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(DataEntryBase.this, EditPassword.class);
                 startActivity(i);
             }
         });

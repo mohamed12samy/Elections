@@ -48,13 +48,13 @@
 
             <TextView
                 android:id="@+id/candidate_name"
-                android:layout_width="120dp"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_margin="8dp"
                 android:text="محمد رضا"
                 android:textColor="#000"
-                android:textSize="24sp" />
+                android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/percent"
@@ -62,23 +62,25 @@
                 android:layout_height="wrap_content"
                 android:background="@color/colorPrimaryDark"
                 android:gravity="center"
+                android:layout_gravity="center_vertical"
                 android:minWidth="48dp"
-                android:padding="10dp"
-                android:text="15"
-                android:layout_marginRight="18dp"
+                android:padding="8dp"
+                android:text=""
+                android:layout_marginRight="12dp"
                 android:textColor="#fff"
                 android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/votesNum"
-                android:layout_width="wrap_content"
+                android:layout_width="70dp"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="24dp"
+                android:layout_marginRight="12dp"
                 android:background="@color/colorPrimaryDark"
                 android:gravity="center"
                 android:minWidth="48dp"
-                android:padding="10dp"
-                android:text="15"
+                android:padding="8dp"
+                android:text=""
+                android:layout_gravity="center_vertical"
                 android:textColor="#fff"
                 android:textSize="18sp" />
 
