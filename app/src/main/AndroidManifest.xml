@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.elections">
+
+    <application
+        android:name=".MyApplication"
+        android:allowBackup="true"
+        android:icon="@mipmap/voting"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity android:name=".ClearBase"></activity>
+        <activity android:name=".EditPassword" />
+        <activity android:name=".CandidateBase" />
+        <activity android:name=".view.DataEntryBase" />
+        <activity android:name=".view.CollectingAdmin" />
+        <activity android:name=".view.CandidatesDataEntry" />
+        <activity android:name=".view.SchoolsDataEntry" />
+        <activity android:name=".view.QsmsDataEntry" />
+        <activity android:name=".view.DataEntry" />
+        <activity android:name=".view.SurveyBase" />
+        <activity android:name=".view.Survey" />
+        <activity android:name=".view.LagnaFlow" />
+        <activity android:name=".view.AdminBase" />
+        <activity android:name=".view.LagnaBase" />
+        <activity android:name=".view.MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>

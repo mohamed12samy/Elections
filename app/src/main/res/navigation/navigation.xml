@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation.xml"
+    app:startDestination="@id/collectingFragment">
+
+    <fragment
+        android:id="@+id/collectingFragment"
+        android:name="com.example.elections.view.CollectingFragment"
+        android:label="fragment_collecting"
+        tools:layout="@layout/fragment_collecting" >
+        <action
+            android:id="@+id/action_collectingFragment_to_sortingFragment"
+            app:destination="@id/sortingFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/sortingFragment"
+        android:name="com.example.elections.view.SortingFragment"
+        android:label="fragment_sorting"
+        tools:layout="@layout/fragment_sorting" />
+</navigation>
