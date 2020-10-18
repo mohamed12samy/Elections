@@ -6,6 +6,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
@@ -24,6 +25,8 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.MutableData;
+import com.google.firebase.database.Transaction;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -38,6 +41,7 @@ public class ElectionRepository {
 
     final MutableLiveData<List<Candidates>> candidates = new SingleLiveEvent<>();
     final MutableLiveData<List<Candidates>> candidates2 = new SingleLiveEvent<List<Candidates>>();
+    final MutableLiveData<List<Candidates>> candidates3 = new SingleLiveEvent<List<Candidates>>();
     SharedPreferences sP;
 
     final MutableLiveData<ArrayList<DayraObjList>> dayraSingleLiveEvent = new SingleLiveEvent<ArrayList<DayraObjList>>();
@@ -157,7 +161,7 @@ public class ElectionRepository {
 
     public LiveData<List<Candidates>> getCandidates2(int governorate_position, int daira, int flag) {
 
-        get_candidates_ref2.child(governorate_position + "/dayra/" + daira + "/candidates/").orderByChild(flag == 0 ? "votes_num" :"votes_num_survey")
+        get_candidates_ref2.child(governorate_position + "/dayra/" + daira + "/candidates/").orderByChild("votes_num" )
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -183,6 +187,35 @@ public class ElectionRepository {
                     }
                 });
         return candidates2;
+    }
+    public LiveData<List<Candidates>> getCandidatesSurvey(int governorate_position, int daira) {
+
+        get_candidates_ref2.child(governorate_position + "/dayra/" + daira + "/candidates/").orderByChild("votes_num_survey")
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        // array hena...
+                        List<Candidates> candi = new ArrayList<>();
+
+                        for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                            if (dataSnapshot != null) {
+                                Candidates c =
+                                        new Candidates(dataSnapshot.getKey(), dataSnapshot.child("name").getValue().toString(),
+                                                (Long) dataSnapshot.child("votes_num").getValue(), (Long) dataSnapshot.child("votes_num_survey").getValue());
+                                candi.add(c);
+                            }
+                        }
+//                        Log.d("!!!!", "-*-*-*" + candi.get(0).getName() + " " + candi.get(0).getKey());
+                        Collections.reverse(candi);
+                        candidates3.setValue(candi);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        Log.d("tttttt", error.getMessage() + "   -*-*-*");
+                    }
+                });
+        return candidates3;
     }
 
     public LiveData<ArrayList<DayraObjList>> getDayra(int governorate_position, int daira_number) {
@@ -240,51 +273,80 @@ public class ElectionRepository {
 
 
     public void updateCandidateVotes(String key, int votes) {
-        update_candidatesVotes_ref.child(key).child("votes_num").setValue(votes);
+        update_candidatesVotes_ref.child(key).child("votes_num").runTransaction(new Transaction.Handler() {
+            @NonNull
+            @Override
+            public Transaction.Result doTransaction(@NonNull MutableData currentData) {
+                if(currentData.getValue() == null) {
+                    currentData.setValue(votes);
+                    return Transaction.success(currentData);
+                }else{
+                    currentData.setValue(Integer.parseInt(currentData.getValue().toString()) + votes);
+                }
+                return Transaction.success(currentData);
+            }
+
+            @Override
+            public void onComplete(@Nullable DatabaseError error, boolean committed, @Nullable DataSnapshot currentData) {
+
+            }
+        });
     }
 
     public void updateCandidateVotesSurvey(String key1, String key2) {
 
-        update_candidatesVotes_ref.child(key1).child("votes_num_survey").addListenerForSingleValueEvent(new ValueEventListener() {
+        update_candidatesVotes_ref.child(key1).child("votes_num_survey").runTransaction(new Transaction.Handler() {
+            @NonNull
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                Log.d("OOOKKK", snapshot.getValue() + "");
-                if (snapshot.getValue() != null)
-                    update_candidatesVotes_ref.child(key1).child("votes_num_survey").setValue(Integer.parseInt(snapshot.getValue().toString()) + 1);
-                else
-                    update_candidatesVotes_ref.child(key1).child("votes_num_survey").setValue(1);
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Log.d("OOOKKK", error.getMessage() + "   -*-*-*");
-            }
-        });
-        update_candidatesVotes_ref.child(key2).child("votes_num_survey").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.getValue() != null)
-                    update_candidatesVotes_ref.child(key2).child("votes_num_survey").setValue(Integer.parseInt(snapshot.getValue().toString()) + 1);
-                else
-                    update_candidatesVotes_ref.child(key2).child("votes_num_survey").setValue(1);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-            }
-        });
-
-        get_candidates_ref.child("total_votes_survey").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.getValue() != null) {
-                    get_candidates_ref.child("total_votes_survey").setValue(Integer.parseInt(snapshot.getValue().toString()) + 1);
+            public Transaction.Result doTransaction(@NonNull MutableData currentData) {
+                if(currentData.getValue() == null) {
+                    currentData.setValue(1);
+                    return Transaction.success(currentData);
+                }else{
+                    currentData.setValue(Integer.parseInt(currentData.getValue().toString()) + 1);
                 }
+                return Transaction.success(currentData);
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+            public void onComplete(@Nullable DatabaseError error, boolean committed, @Nullable DataSnapshot currentData) {
+
+            }
+        });
+
+        update_candidatesVotes_ref.child(key2).child("votes_num_survey").runTransaction(new Transaction.Handler() {
+            @NonNull
+            @Override
+            public Transaction.Result doTransaction(@NonNull MutableData currentData) {
+                if(currentData.getValue() == null) {
+                    currentData.setValue(1);
+                    return Transaction.success(currentData);
+                }else{
+                    currentData.setValue(Integer.parseInt(currentData.getValue().toString()) + 1);
+                }
+                return Transaction.success(currentData);
+            }
+
+            @Override
+            public void onComplete(@Nullable DatabaseError error, boolean committed, @Nullable DataSnapshot currentData) {
+
+            }
+        });
+        get_candidates_ref.child("total_votes_survey").runTransaction(new Transaction.Handler() {
+            @NonNull
+            @Override
+            public Transaction.Result doTransaction(@NonNull MutableData currentData) {
+                if(currentData.getValue() == null) {
+                    currentData.setValue(1);
+                    return Transaction.success(currentData);
+                }else{
+                    currentData.setValue(Integer.parseInt(currentData.getValue().toString()) + 1);
+                }
+                return Transaction.success(currentData);
+            }
+
+            @Override
+            public void onComplete(@Nullable DatabaseError error, boolean committed, @Nullable DataSnapshot currentData) {
 
             }
         });
@@ -293,45 +355,58 @@ public class ElectionRepository {
 
     public void updateValidInvalidVotes(int valid, int invalid, int total_votes) {
 
-        get_candidates_ref.child("total_votes_sorting").addListenerForSingleValueEvent(new ValueEventListener() {
+        get_candidates_ref.child("total_votes_sorting").runTransaction(new Transaction.Handler() {
+            @NonNull
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.getValue() != null) {
-                    get_candidates_ref.child("total_votes_sorting").setValue(Integer.parseInt(snapshot.getValue().toString()) + total_votes);
+            public Transaction.Result doTransaction(@NonNull MutableData currentData) {
+                if(currentData.getValue() == null) {
+                    currentData.setValue(total_votes);
+                    return Transaction.success(currentData);
+                }else{
+                    currentData.setValue(Integer.parseInt(currentData.getValue().toString()) + total_votes);
                 }
+                return Transaction.success(currentData);
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+            public void onComplete(@Nullable DatabaseError error, boolean committed, @Nullable DataSnapshot currentData) {
+
+            }
+        });
+        get_candidates_ref.child("valid_vots").runTransaction(new Transaction.Handler() {
+            @NonNull
+            @Override
+            public Transaction.Result doTransaction(@NonNull MutableData currentData) {
+                if(currentData.getValue() == null) {
+                    currentData.setValue(valid);
+                    return Transaction.success(currentData);
+                }else{
+                    currentData.setValue(Integer.parseInt(currentData.getValue().toString()) + valid);
+                }
+                return Transaction.success(currentData);
+            }
+
+            @Override
+            public void onComplete(@Nullable DatabaseError error, boolean committed, @Nullable DataSnapshot currentData) {
 
             }
         });
 
-        get_candidates_ref.child("valid_vots").addListenerForSingleValueEvent(new ValueEventListener() {
+        get_candidates_ref.child("invalid_vots").runTransaction(new Transaction.Handler() {
+            @NonNull
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.getValue() != null) {
-                    get_candidates_ref.child("valid_vots").setValue(Integer.parseInt(snapshot.getValue().toString()) + valid);
+            public Transaction.Result doTransaction(@NonNull MutableData currentData) {
+                if(currentData.getValue() == null) {
+                    currentData.setValue(invalid);
+                    return Transaction.success(currentData);
+                }else{
+                    currentData.setValue(Integer.parseInt(currentData.getValue().toString()) + invalid);
                 }
+                return Transaction.success(currentData);
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-
-        get_candidates_ref.child("invalid_vots").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.getValue() != null) {
-                    get_candidates_ref.child("invalid_vots").setValue(Integer.parseInt(snapshot.getValue().toString()) + invalid);
-
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+            public void onComplete(@Nullable DatabaseError error, boolean committed, @Nullable DataSnapshot currentData) {
 
             }
         });
@@ -624,14 +699,16 @@ public class ElectionRepository {
         add_dayra_ref.child(governorate_position + "/dayra/" + daira +"/controller_pass").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                Log.d("DFG","*******  "+ governorate_position+"  "+ controller_pass+"   "+daira );
+
                 if(snapshot.getValue() != null){
-                    Log.d("DFG","++++++");
+
                     if(controller_pass.equals(snapshot.getValue().toString())){
-                        Log.d("DFG","------");
+
                         reformateDayra(governorate_position,daira);
                         reformateQesm(governorate_position, daira);
                         reformateCandidates(governorate_position, daira, c);
+                        Toast.makeText(MyApplication.getInstance(), "تم التعديل", Toast.LENGTH_SHORT).show();
+
                     }else {
                         Toast.makeText(MyApplication.getInstance(), "كلمة السر خطأ", Toast.LENGTH_SHORT).show();
                     }
@@ -653,7 +730,6 @@ public class ElectionRepository {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-                Log.d("SERT", "65656");
                 if (snapshot.getValue() != null) {
                     if (password.equals(snapshot.child("password").getValue().toString())) {
 

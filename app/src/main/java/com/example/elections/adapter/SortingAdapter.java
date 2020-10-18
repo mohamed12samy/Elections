@@ -48,7 +48,7 @@ public class SortingAdapter extends RecyclerView.Adapter<SortingAdapter.ViewHold
 
             holder.can_name.setText(candidates.get(position).getName());
             holder.can_Num.setText(candidates.get(position).getKey()); /********* iiiiiiddddddd *********/
-            holder.vote_edit.setText(candidates.get(position).getVotes()+"");
+            //holder.vote_edit.setText(candidates.get(position).getVotes()+"");
         }
     }
     public class ViewHolder extends RecyclerView.ViewHolder {

@@ -42,19 +42,21 @@
 
             <TextView
                 android:id="@+id/candidate_name"
-                android:layout_width="120dp"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_margin="8dp"
                 android:text="محمد رضا"
                 android:textColor="#000"
-                android:textSize="24sp"
+                android:textSize="18sp"
+                android:layout_weight="1"
                 app:layout_constraintRight_toLeftOf="@id/candidate_num"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <EditText
                 android:id="@+id/edittext_vote"
                 android:layout_width="70dp"
+                android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginVertical="4dp"
@@ -78,6 +80,7 @@
                 android:background="@color/colorPrimaryDark"
                 android:padding="10dp"
                 android:text="تم"
+                android:layout_weight="1"
                 android:textColor="#fff"
                 android:textSize="20sp" />
 
