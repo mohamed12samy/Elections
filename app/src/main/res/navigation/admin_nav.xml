@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/admin_nav"
+    app:startDestination="@id/collectingFragment">
+
+    <fragment
+        android:id="@+id/collectingFragment"
+        android:name="com.example.elections.view.CollectingAdminFragment"
+        android:label="fragment_collecting_admin"
+        tools:layout="@layout/fragment_collecting_admin" >
+        <action
+            android:id="@+id/action_collectingAdminFragment_to_sortingAdminFragment"
+            app:destination="@id/sortingFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/sortingFragment"
+        android:name="com.example.elections.view.SortingAdminFragment"
+        android:label="fragment_sorting_admin"
+        tools:layout="@layout/fragment_sorting_admin" >
+        <action
+            android:id="@+id/action_sortingFragment_to_surveyFragment"
+            app:destination="@id/surveyFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/surveyFragment"
+        android:name="com.example.elections.view.SurbeyAdminFragment"
+        android:label="fragment_surbey_admin"
+        tools:layout="@layout/fragment_surbey_admin" />
+</navigation>

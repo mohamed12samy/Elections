@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".view.CandidateBase"
+    android:background="@color/colorAccent2">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/my_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/colorPrimaryDark"
+            android:elevation="4dp"
+            app:contentInsetLeft="0dp"
+            app:contentInsetStart="0dp"
+            app:contentInsetStartWithNavigation="0dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            >
+            <TextView
+                android:id="@+id/toolbar_title"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="دخول المسئول"
+                android:textColor="#fff"
+                android:textSize="25dp"
+                android:textStyle="bold" />
+        </com.google.android.material.appbar.MaterialToolbar>
+
+        <Spinner
+            android:id="@+id/governate_spinner"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:entries="@array/governates"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="50dp"
+            android:prompt="@string/governates_prompt"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/my_toolbar"
+            android:layout_margin="24dp"
+            android:gravity="end"
+            />
+
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="24dp"
+            android:gravity="end"
+            android:id="@+id/_1"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginVertical="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/governate_spinner"
+            >
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/daira_number"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="start"
+                android:hint="رقم الدائرة"
+                android:inputType="numberDecimal"
+                android:layoutDirection="rtl"
+                android:textDirection="rtl" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="24dp"
+            android:gravity="end"
+            android:id="@+id/_2"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginVertical="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/_1"
+            >
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/candidate_num"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="start"
+                android:hint="رقم المرشح"
+                android:inputType="numberDecimal"
+                android:layoutDirection="rtl"
+                android:textDirection="rtl" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/_3"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginVertical="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/_2"
+
+            >
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/Password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="start"
+                android:hint="ادحل كلمه السر"
+                android:inputType="textWebPassword"
+                android:layoutDirection="rtl"
+                android:textDirection="ltr"
+                android:textColor="#000"
+                android:textColorHint="#FFF"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/enter"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_alignParentBottom="true"
+            android:layout_margin="50dp"
+            android:text="دخول"
+            android:textAllCaps="false"
+            android:textStyle="bold"
+            android:textColor="#fff"
+            android:textSize="25sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/_3"
+            app:backgroundTint="@color/colorPrimaryDark"
+            >
+
+        </com.google.android.material.button.MaterialButton>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
